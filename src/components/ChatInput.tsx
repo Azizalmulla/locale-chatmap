@@ -24,7 +24,7 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="w-full glass-morphism rounded-lg p-3"
+      className="w-full p-4 border-t border-white/10"
     >
       <form onSubmit={handleSubmit} className="flex items-center gap-3">
         <motion.button
@@ -44,14 +44,17 @@ const ChatInput = ({ onSendMessage }: ChatInputProps) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 bg-white/5 px-4 py-2.5 rounded-lg border border-white/10 text-sm placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20"
+          className="flex-1 bg-white/5 px-4 py-3 rounded-xl border border-white/10 text-sm 
+                   placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20
+                   transition-colors focus:bg-white/10"
         />
         
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="p-2.5 rounded-full hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2.5 rounded-full hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed
+                   transition-colors"
           disabled={!message.trim()}
         >
           <Send className="w-5 h-5" />

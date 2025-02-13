@@ -28,40 +28,38 @@ const menuItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-white/10">
       <SidebarContent>
         <SidebarGroup>
-          <div className="p-6 mb-4">
-            <h1 className="text-2xl font-semibold tracking-tight">
+          <div className="px-4 py-6">
+            <h1 className="text-lg font-medium tracking-tight">
               <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
                 Locale
               </span>
             </h1>
-            <p className="text-sm text-white/50 mt-1">
+            <p className="text-xs text-white/50 mt-0.5">
               Discover your city
             </p>
           </div>
+          <div className="sidebar-divider" />
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="sidebar-menu-item">
                   <motion.div
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ x: 4 }}
                     whileTap={{ scale: 0.98 }}
                     className="w-full"
                   >
                     <SidebarMenuButton asChild>
-                      <a
-                        href={item.url}
-                        className="flex flex-col gap-2 p-4 glass-morphism hover:bg-white/10 transition-all duration-200 group"
-                      >
-                        <div className="flex items-center gap-3">
-                          <item.icon className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
-                          <span className="font-medium tracking-tight">{item.title}</span>
+                      <a href={item.url} className="sidebar-btn group">
+                        <item.icon className="sidebar-icon group-hover:text-white" />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">{item.title}</span>
+                          <span className="text-xs text-white/50 group-hover:text-white/70">
+                            {item.description}
+                          </span>
                         </div>
-                        <p className="text-sm text-white/50 group-hover:text-white/70 transition-colors">
-                          {item.description}
-                        </p>
                       </a>
                     </SidebarMenuButton>
                   </motion.div>

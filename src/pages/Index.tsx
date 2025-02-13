@@ -27,27 +27,29 @@ const Index = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-        <div className="flex-1 flex flex-col p-6 gap-6">
-          <Map className="w-full shadow-2xl" />
-          
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="flex-1 flex flex-col gap-4 max-h-[calc(50vh-2rem)] min-h-[300px] glass-morphism rounded-lg p-4"
-          >
-            <div className="flex-1 overflow-y-auto space-y-4 p-2 scrollbar-none">
-              {messages.map((message, index) => (
-                <ChatMessage
-                  key={index}
-                  content={message.content}
-                  isAI={message.isAI}
-                />
-              ))}
-            </div>
+        <div className="flex-1 flex flex-col">
+          <div className="flex-1 p-6 space-y-6">
+            <Map className="w-full h-[45vh] rounded-xl shadow-2xl" />
             
-            <ChatInput onSendMessage={handleSendMessage} />
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="flex-1 flex flex-col bg-black/20 backdrop-blur-xl rounded-xl overflow-hidden"
+            >
+              <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-none">
+                {messages.map((message, index) => (
+                  <ChatMessage
+                    key={index}
+                    content={message.content}
+                    isAI={message.isAI}
+                  />
+                ))}
+              </div>
+              
+              <ChatInput onSendMessage={handleSendMessage} />
+            </motion.div>
+          </div>
         </div>
       </div>
     </SidebarProvider>
