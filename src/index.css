@@ -1,4 +1,3 @@
-
 @import '@fontsource/inter/300.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
@@ -33,9 +32,7 @@
     --ring: 240 4.9% 83.9%;
     --radius: 0.75rem;
   }
-}
 
-@layer base {
   * {
     @apply border-border selection:bg-white/10 selection:text-white;
   }
@@ -69,6 +66,29 @@
   
   .ai-message {
     @apply bg-muted text-muted-foreground neo-blur mr-auto;
+  }
+
+  [cmdk-overlay] {
+    @apply bg-black/50 backdrop-blur-sm;
+  }
+
+  [cmdk-dialog] {
+    @apply neo-blur;
+  }
+
+  .sidebar-btn {
+    @apply relative overflow-hidden transition-all duration-200;
+  }
+
+  .sidebar-btn::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-200 
+           bg-gradient-to-r from-white/5 to-transparent 
+           pointer-events-none;
+  }
+
+  .sidebar-btn:hover::after {
+    @apply opacity-100;
   }
 }
 

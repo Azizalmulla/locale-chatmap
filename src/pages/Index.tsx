@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Map from '@/components/Map';
 import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
 
 const Index = () => {
   const [messages, setMessages] = useState<Array<{ content: string; isAI: boolean }>>([
@@ -22,28 +24,33 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-4 gap-4">
-      <Map className="w-full" />
-      
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-col gap-4 max-h-[calc(50vh-2rem)] min-h-[300px]"
-      >
-        <div className="flex-1 overflow-y-auto space-y-4 p-2">
-          {messages.map((message, index) => (
-            <ChatMessage
-              key={index}
-              content={message.content}
-              isAI={message.isAI}
-            />
-          ))}
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col p-4 gap-4">
+          <Map className="w-full" />
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="flex-1 flex flex-col gap-4 max-h-[calc(50vh-2rem)] min-h-[300px]"
+          >
+            <div className="flex-1 overflow-y-auto space-y-4 p-2">
+              {messages.map((message, index) => (
+                <ChatMessage
+                  key={index}
+                  content={message.content}
+                  isAI={message.isAI}
+                />
+              ))}
+            </div>
+            
+            <ChatInput onSendMessage={handleSendMessage} />
+          </motion.div>
         </div>
-        
-        <ChatInput onSendMessage={handleSendMessage} />
-      </motion.div>
-    </div>
+      </div>
+    </SidebarProvider>
   );
 };
 
