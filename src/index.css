@@ -62,7 +62,7 @@
   }
   
   .user-message {
-    @apply bg-accent text-accent-foreground glass-morphism ml-auto max-w-[80%];
+    @apply bg-accent text-accent-foreground glass-morphism ml-auto max-w-[80%] leading-relaxed;
   }
   
   .ai-message {
@@ -110,4 +110,14 @@
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Scrollbar styling */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
