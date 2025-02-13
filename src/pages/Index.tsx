@@ -27,16 +27,16 @@ const Index = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-        <div className="flex-1 flex flex-col p-4 gap-4">
-          <Map className="w-full" />
+        <div className="flex-1 flex flex-col p-6 gap-6">
+          <Map className="w-full shadow-2xl" />
           
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="flex-1 flex flex-col gap-4 max-h-[calc(50vh-2rem)] min-h-[300px]"
+            className="flex-1 flex flex-col gap-4 max-h-[calc(50vh-2rem)] min-h-[300px] glass-morphism rounded-lg p-4"
           >
-            <div className="flex-1 overflow-y-auto space-y-4 p-2">
+            <div className="flex-1 overflow-y-auto space-y-4 p-2 scrollbar-none">
               {messages.map((message, index) => (
                 <ChatMessage
                   key={index}
