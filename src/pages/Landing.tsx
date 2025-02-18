@@ -42,12 +42,7 @@ const Landing = () => {
         className="absolute inset-0 z-0"
       />
       
-      <div className="relative z-10 text-center space-y-6">
-        <h1 className="text-4xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-            Locale
-          </span>
-        </h1>
+      <div className="relative z-10 text-center">
         <p className="text-white/70">Press Enter to continue</p>
       </div>
     </motion.div>
