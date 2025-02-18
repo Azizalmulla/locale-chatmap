@@ -31,10 +31,6 @@ const Landing = () => {
           scene="https://prod.spline.design/HONofF9QBUivdu9Z/scene.splinecode"
         />
       </div>
-      
-      <div className="relative z-10 text-center">
-        <p className="text-white/70">Dashboard URL: /app</p>
-      </div>
     </motion.div>
   );
 };
