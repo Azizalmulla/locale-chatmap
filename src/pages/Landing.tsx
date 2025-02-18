@@ -2,17 +2,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'spline-viewer': {
-        url: string;
-        className?: string;
-      }
-    }
-  }
-}
+import Spline from '@splinetool/react-spline';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -23,7 +13,6 @@ const Landing = () => {
     }
   };
 
-  // Add event listener for Enter key
   useEffect(() => {
     window.addEventListener('keypress', handleKeyPress);
     return () => {
@@ -37,10 +26,11 @@ const Landing = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen w-full flex flex-col items-center justify-center relative bg-black"
     >
-      <spline-viewer 
-        url="https://prod.spline.design/HONofF9QBUivdu9Z/scene.splinecode"
-        className="absolute inset-0 z-0"
-      />
+      <div className="absolute inset-0 z-0">
+        <Spline
+          scene="https://prod.spline.design/HONofF9QBUivdu9Z/scene.splinecode"
+        />
+      </div>
       
       <div className="relative z-10 text-center">
         <p className="text-white/70">Dashboard URL: /app</p>
