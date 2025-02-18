@@ -43,7 +43,7 @@ const Landing = () => {
       />
       
       <div className="relative z-10 text-center">
-        <p className="text-white/70">Press Enter to continue</p>
+        <p className="text-white/70">Dashboard URL: /app</p>
       </div>
     </motion.div>
   );
