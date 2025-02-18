@@ -1,4 +1,5 @@
 
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -23,7 +24,7 @@ const Landing = () => {
   };
 
   // Add event listener for Enter key
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener('keypress', handleKeyPress);
     return () => {
       window.removeEventListener('keypress', handleKeyPress);
