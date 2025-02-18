@@ -27,9 +27,9 @@ const Index = () => {
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <AppSidebar />
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 p-6 space-y-6">
-            <div className="relative w-full h-[45vh] rounded-xl shadow-2xl overflow-hidden">
+        <div className="flex-1 flex flex-col bg-[#343541]">
+          <div className="flex-1 flex flex-col max-w-5xl mx-auto w-full px-4 py-6">
+            <div className="relative w-full h-[40vh] rounded-lg overflow-hidden mb-6 ring-1 ring-white/10">
               <Map className="w-full h-full" />
             </div>
             
@@ -37,9 +37,9 @@ const Index = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="flex-1 flex flex-col bg-black/20 backdrop-blur-xl rounded-xl overflow-hidden"
+              className="flex-1 flex flex-col bg-[#404150] rounded-lg overflow-hidden ring-1 ring-white/10"
             >
-              <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-none">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-none">
                 {messages.map((message, index) => (
                   <ChatMessage
                     key={index}
