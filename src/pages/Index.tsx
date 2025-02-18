@@ -7,17 +7,6 @@ import ChatInput from '@/components/ChatInput';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'spline-viewer': {
-        url: string;
-        className?: string;
-      }
-    }
-  }
-}
-
 const Index = () => {
   const [messages, setMessages] = useState<Array<{ content: string; isAI: boolean }>>([
     { content: "Welcome to Locale! How can I assist you today?", isAI: true }
@@ -42,10 +31,6 @@ const Index = () => {
           <div className="flex-1 p-6 space-y-6">
             <div className="relative w-full h-[45vh] rounded-xl shadow-2xl overflow-hidden">
               <Map className="w-full h-full" />
-              <spline-viewer 
-                url="https://prod.spline.design/HONofF9QBUivdu9Z/scene.splinecode"
-                className="absolute inset-0 pointer-events-none"
-              />
             </div>
             
             <motion.div 
