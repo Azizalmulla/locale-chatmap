@@ -1,7 +1,7 @@
 
 import { Home, MessageSquare, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -40,6 +40,8 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
     <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-white/10">
       <SidebarContent>
@@ -65,7 +67,12 @@ export function AppSidebar() {
                     className="w-full"
                   >
                     <SidebarMenuButton asChild>
-                      <Link to={item.url} className="sidebar-btn group">
+                      <Link 
+                        to={item.url} 
+                        className={`sidebar-btn group ${
+                          location.pathname === item.url ? 'bg-white/10' : ''
+                        }`}
+                      >
                         <item.icon className="sidebar-icon group-hover:text-white" />
                         <div className="flex flex-col">
                           <span className="text-sm font-medium">{item.title}</span>
