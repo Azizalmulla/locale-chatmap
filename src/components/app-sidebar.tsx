@@ -41,14 +41,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="px-4 py-6">
-            <h1 className="text-lg font-medium tracking-tight">
-              <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
-                Locale
-              </span>
-            </h1>
-            <p className="text-xs text-white/50 mt-0.5">
-              Discover your city
-            </p>
+            {/* Empty space for logo */}
           </div>
           <div className="sidebar-divider" />
           <SidebarGroupContent>
