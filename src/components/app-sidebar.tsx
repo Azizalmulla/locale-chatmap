@@ -40,8 +40,12 @@ export function AppSidebar() {
     <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-white/10">
       <SidebarContent>
         <SidebarGroup>
-          <div className="px-4 py-6">
-            {/* Empty space for logo */}
+          <div className="px-4 py-6 flex justify-center">
+            <img 
+              src="https://storage.googleapis.com/a1aa/image/UqGZ6D-mK5ZMKJk7HVIY10SdnQXjvfwsDlWhCfo1hgY.jpg" 
+              alt="Eye illustration logo" 
+              className="w-32 h-32 object-contain"
+            />
           </div>
           <div className="sidebar-divider" />
           <SidebarGroupContent>
