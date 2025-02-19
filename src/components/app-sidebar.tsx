@@ -1,6 +1,7 @@
 
-import { Calendar, Map } from "lucide-react";
+import { Home, MessageSquare, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -13,16 +14,28 @@ import {
 
 const menuItems = [
   {
-    title: "Plan My Day",
-    url: "/plan",
-    icon: Calendar,
-    description: "AI-powered daily recommendations"
+    title: "Home",
+    url: "/app",
+    icon: Home,
+    description: "Dashboard overview"
   },
   {
-    title: "Cool Stuff To Do",
-    url: "/activities",
+    title: "Chat",
+    url: "/app/chat",
+    icon: MessageSquare,
+    description: "AI assistant"
+  },
+  {
+    title: "Explore",
+    url: "/app/map",
     icon: Map,
-    description: "Trending events & places"
+    description: "Interactive map"
+  },
+  {
+    title: "Trending",
+    url: "/app/trending",
+    icon: TrendingUp,
+    description: "Cool stuff to do"
   }
 ];
 
@@ -52,7 +65,7 @@ export function AppSidebar() {
                     className="w-full"
                   >
                     <SidebarMenuButton asChild>
-                      <a href={item.url} className="sidebar-btn group">
+                      <Link to={item.url} className="sidebar-btn group">
                         <item.icon className="sidebar-icon group-hover:text-white" />
                         <div className="flex flex-col">
                           <span className="text-sm font-medium">{item.title}</span>
@@ -60,7 +73,7 @@ export function AppSidebar() {
                             {item.description}
                           </span>
                         </div>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </motion.div>
                 </SidebarMenuItem>
