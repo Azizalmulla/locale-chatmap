@@ -37,10 +37,11 @@ export function AppSidebar() {
   const location = useLocation();
 
   const isActiveRoute = (itemUrl: string) => {
+    const currentPath = location.pathname.startsWith('/') ? location.pathname : `/${location.pathname}`;
     if (itemUrl === '/app') {
-      return location.pathname === '/app' || location.pathname === '/app/';
+      return currentPath === '/app' || currentPath === '/app/';
     }
-    return location.pathname === itemUrl;
+    return currentPath === itemUrl;
   };
 
   return (
