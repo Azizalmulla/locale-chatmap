@@ -36,6 +36,13 @@ const menuItems = [
 export function AppSidebar() {
   const location = useLocation();
 
+  const isActiveRoute = (itemUrl: string) => {
+    if (itemUrl === '/app') {
+      return location.pathname === '/app' || location.pathname === '/app/';
+    }
+    return location.pathname === itemUrl;
+  };
+
   return (
     <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-white/10">
       <SidebarContent>
@@ -65,7 +72,7 @@ export function AppSidebar() {
                       <Link 
                         to={item.url} 
                         className={`sidebar-btn group ${
-                          location.pathname === item.url ? 'bg-white/10' : ''
+                          isActiveRoute(item.url) ? 'bg-white/10' : ''
                         }`}
                       >
                         <item.icon className="sidebar-icon group-hover:text-white" />
