@@ -17,7 +17,7 @@ const menuItems = [
     title: "Guide",
     url: "/app",
     icon: BookOpen,
-    description: "Getting started"
+    description: "Your Agent"
   },
   {
     title: "Explore",
