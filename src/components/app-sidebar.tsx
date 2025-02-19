@@ -1,5 +1,5 @@
 
-import { Home, Map, TrendingUp } from "lucide-react";
+import { BookOpen, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -14,10 +14,10 @@ import {
 
 const menuItems = [
   {
-    title: "Home",
+    title: "Guide",
     url: "/app",
-    icon: Home,
-    description: "Dashboard overview"
+    icon: BookOpen,
+    description: "Getting started"
   },
   {
     title: "Explore",
