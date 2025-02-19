@@ -1,5 +1,5 @@
 
-import { Home, MessageSquare, Map, TrendingUp } from "lucide-react";
+import { Home, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -18,12 +18,6 @@ const menuItems = [
     url: "/app",
     icon: Home,
     description: "Dashboard overview"
-  },
-  {
-    title: "Chat",
-    url: "/app/chat",
-    icon: MessageSquare,
-    description: "AI assistant"
   },
   {
     title: "Explore",
