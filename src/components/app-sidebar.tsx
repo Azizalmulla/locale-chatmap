@@ -41,11 +41,13 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="px-4 py-6 flex justify-center">
-            <img 
-              src="https://storage.googleapis.com/a1aa/image/UqGZ6D-mK5ZMKJk7HVIY10SdnQXjvfwsDlWhCfo1hgY.jpg" 
-              alt="Eye illustration logo" 
-              className="w-32 h-32 object-contain"
-            />
+            <div className="relative w-32 h-32 rounded-full overflow-hidden backdrop-blur-xl bg-black/20">
+              <img 
+                src="https://storage.googleapis.com/a1aa/image/UqGZ6D-mK5ZMKJk7HVIY10SdnQXjvfwsDlWhCfo1hgY.jpg" 
+                alt="Eye illustration logo" 
+                className="w-full h-full object-cover opacity-90"
+              />
+            </div>
           </div>
           <div className="sidebar-divider" />
           <SidebarGroupContent>
