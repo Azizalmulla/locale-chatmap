@@ -93,18 +93,21 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <Link to={item.url}>
-                    <SidebarMenuButton className={`w-full ${
-                      isRetroMode 
-                        ? 'retro-text ' + (
-                            isActiveRoute(item.url)
-                              ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow'
-                              : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
-                          )
-                        : isActiveRoute(item.url)
-                          ? 'bg-accent text-accent-foreground'
-                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                    }`}>
+                  <SidebarMenuButton asChild>
+                    <Link 
+                      to={item.url}
+                      className={`group flex w-full ${
+                        isRetroMode 
+                          ? 'retro-text ' + (
+                              isActiveRoute(item.url)
+                                ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow'
+                                : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
+                            )
+                          : isActiveRoute(item.url)
+                            ? 'bg-accent text-accent-foreground'
+                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                      }`}
+                    >
                       <motion.div
                         whileHover={{ x: 4, scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -124,8 +127,8 @@ export function AppSidebar() {
                           </span>
                         </div>
                       </motion.div>
-                    </SidebarMenuButton>
-                  </Link>
+                    </Link>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
