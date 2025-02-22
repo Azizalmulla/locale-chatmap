@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { motion } from 'framer-motion';
 
 interface MapProps {
@@ -14,8 +15,8 @@ const Map: React.FC<MapProps> = ({ className }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map
-    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN'; // Replace with your token or add input for users
+    // Initialize map with a temporary token
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGxxZ3ljemowMHd3MmpxcjRxc2xtZm1sIn0.qHQqRNvuGwn_2CsGh0CCQQ';
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,

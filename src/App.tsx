@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
+import MapView from './pages/MapView';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/app" element={<Index />}>
           <Route index element={<Home />} />
           <Route path="chat" element={<Home />} />
-          <Route path="map" element={<NotFound />} />
+          <Route path="map" element={<MapView />} />
           <Route path="trending" element={<NotFound />} />
         </Route>
         <Route path="*" element={<NotFound />} />
