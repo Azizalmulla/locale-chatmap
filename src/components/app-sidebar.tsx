@@ -1,5 +1,5 @@
 
-import { BookOpen, Map, TrendingUp } from "lucide-react";
+import { BookOpen, Map, TrendingUp, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useRetroMode } from "@/pages/Index";
@@ -36,7 +36,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const { isRetroMode } = useRetroMode();
+  const { isRetroMode, toggleRetroMode } = useRetroMode();
 
   const isActiveRoute = (itemUrl: string) => {
     const currentPath = location.pathname.startsWith('/') ? location.pathname : `/${location.pathname}`;
@@ -54,7 +54,7 @@ export function AppSidebar() {
     }`}>
       <SidebarContent>
         <SidebarGroup>
-          <div className="px-4 py-6 flex justify-center">
+          <div className="px-4 py-6 flex flex-col items-center gap-4">
             <motion.div 
               className={`relative w-32 h-32 rounded-full overflow-hidden flex items-center justify-center ${
                 isRetroMode 
@@ -77,6 +77,16 @@ export function AppSidebar() {
                 <div className="text-4xl font-black text-primary tracking-tight">LVB</div>
               )}
             </motion.div>
+            <button
+              onClick={toggleRetroMode}
+              className="p-2 rounded-full transition-all duration-300 hover:scale-110"
+            >
+              {isRetroMode ? (
+                <EyeOff className="w-6 h-6 text-[#D946EF] retro-glow" />
+              ) : (
+                <Eye className="w-6 h-6 text-gray-400 hover:text-gray-600" />
+              )}
+            </button>
           </div>
           <div className={`sidebar-divider ${isRetroMode ? 'opacity-20' : ''}`} />
           <SidebarGroupContent>
