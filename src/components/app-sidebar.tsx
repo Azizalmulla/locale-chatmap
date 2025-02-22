@@ -74,7 +74,7 @@ export function AppSidebar() {
                   <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
                 </svg>
               ) : (
-                <div className="text-4xl font-black text-primary tracking-tight">LVB</div>
+                <Eye className="w-20 h-20 text-primary" />
               )}
             </motion.div>
             <button
