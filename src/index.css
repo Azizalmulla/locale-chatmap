@@ -85,34 +85,40 @@
   }
 
   .retro-grid {
-    background-image: linear-gradient(transparent 95%, #2020ff20 95%),
-      linear-gradient(90deg, transparent 95%, #2020ff20 95%);
+    background-image: 
+      linear-gradient(rgba(32, 32, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(32, 32, 255, 0.05) 1px, transparent 1px);
     background-size: 20px 20px;
+    background-position: -1px -1px;
   }
 
   .retro-glow {
-    text-shadow: 0 0 10px #ff00ff80, 0 0 20px #ff00ff40, 0 0 30px #ff00ff20;
+    text-shadow: 0 0 10px currentColor;
+    filter: drop-shadow(0 0 5px currentColor);
   }
 
   .retro-scanline {
-    background: repeating-linear-gradient(
-      transparent 0%,
-      rgba(0, 0, 0, 0.1) 50%,
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(32, 32, 255, 0.05) 50%,
       transparent 100%
     );
     background-size: 100% 4px;
+    animation: scanline 10s linear infinite;
+    opacity: 0.5;
     pointer-events: none;
   }
 
   .retro-text {
     font-family: 'Press Start 2P', cursive;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     line-height: 1.5;
   }
 
   .retro-border {
-    border: 2px solid #0fa0ce;
-    box-shadow: 0 0 10px #0fa0ce80, inset 0 0 10px #0fa0ce80;
+    border: 2px solid #0FA0CE;
+    box-shadow: 0 0 10px #0FA0CE80, inset 0 0 10px #0FA0CE80;
   }
 
   .retro-message {

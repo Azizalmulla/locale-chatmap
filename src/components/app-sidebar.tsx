@@ -45,41 +45,43 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-white/10">
+    <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-[#0FA0CE]/20">
       <SidebarContent>
         <SidebarGroup>
           <div className="px-4 py-6 flex justify-center">
             <div className="relative w-32 h-32 rounded-full overflow-hidden backdrop-blur-xl bg-black/20 flex items-center justify-center">
               <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
-                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="white" strokeWidth="2" fill="none"/>
-                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="white" strokeWidth="2" fill="none"/>
-                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="white" strokeWidth="2" fill="none"/>
-                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="white" strokeWidth="2" fill="none"/>
-                <circle cx="100" cy="50" r="10" stroke="white" strokeWidth="2" fill="none"/>
+                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
+                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
               </svg>
             </div>
           </div>
-          <div className="sidebar-divider" />
+          <div className="sidebar-divider opacity-20" />
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title} className="sidebar-menu-item">
                   <motion.div
-                    whileHover={{ x: 4 }}
+                    whileHover={{ x: 4, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="w-full"
                   >
                     <SidebarMenuButton asChild>
                       <Link 
                         to={item.url} 
-                        className={`sidebar-btn group ${
-                          isActiveRoute(item.url) ? 'bg-white/10' : ''
+                        className={`sidebar-btn group retro-text ${
+                          isActiveRoute(item.url) 
+                            ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow' 
+                            : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
                         }`}
                       >
-                        <item.icon className="sidebar-icon group-hover:text-white" />
+                        <item.icon className="sidebar-icon group-hover:text-[#D946EF]" />
                         <div className="flex flex-col">
                           <span className="text-sm font-medium">{item.title}</span>
-                          <span className="text-xs text-white/50 group-hover:text-white/70">
+                          <span className="text-xs opacity-70 group-hover:opacity-100">
                             {item.description}
                           </span>
                         </div>
@@ -94,4 +96,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-}
+};
