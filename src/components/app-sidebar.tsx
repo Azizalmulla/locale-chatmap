@@ -1,3 +1,4 @@
+
 import { BookOpen, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -46,9 +47,9 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className={`w-64 transition-all duration-300 ${
+    <Sidebar className={`w-64 transition-all duration-500 ${
       isRetroMode 
-        ? 'bg-black/20 backdrop-blur-xl border-r border-[#00ff80]/20' 
+        ? 'bg-black/40 backdrop-blur-xl border-r border-[#0DF5E3]/20' 
         : 'bg-background border-r border-border'
     }`}>
       <SidebarContent>
@@ -57,15 +58,22 @@ export function AppSidebar() {
             <motion.div 
               className="relative w-32 h-32 flex items-center justify-center"
               initial={false}
-              animate={{ scale: isRetroMode ? 1.05 : 1 }}
-              transition={{ duration: 0.3 }}
+              animate={{ 
+                scale: isRetroMode ? [1, 1.05, 1] : 1,
+                rotate: isRetroMode ? [0, -5, 0, 5, 0] : 0
+              }}
+              transition={{ 
+                duration: isRetroMode ? 2 : 0.3,
+                repeat: isRetroMode ? Infinity : 0,
+                repeatDelay: 3
+              }}
             >
               <svg className="w-24 h-24" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke={isRetroMode ? "#00ff80" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
-                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke={isRetroMode ? "#00ff80" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
-                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke={isRetroMode ? "#00ff80" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
-                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke={isRetroMode ? "#00ff80" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
-                <circle cx="100" cy="50" r="10" stroke={isRetroMode ? "#00ff80" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <circle cx="100" cy="50" r="10" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
               </svg>
             </motion.div>
           </div>
@@ -81,8 +89,8 @@ export function AppSidebar() {
                         isRetroMode 
                           ? 'retro-text ' + (
                               isActiveRoute(item.url)
-                                ? 'bg-[#00ff80]/10 text-[#00ff80] retro-glow'
-                                : 'text-[#00ff80] hover:text-[#00ff80] hover:retro-glow'
+                                ? 'bg-[#0DF5E3]/10 text-[#0DF5E3] retro-glow'
+                                : 'text-[#0DF5E3]/80 hover:text-[#0DF5E3] hover:retro-glow'
                             )
                           : isActiveRoute(item.url)
                             ? 'bg-accent text-accent-foreground'
@@ -96,14 +104,14 @@ export function AppSidebar() {
                       >
                         <item.icon className={`w-4 h-4 shrink-0 ${
                           isRetroMode 
-                            ? 'group-hover:text-[#00ff80]' 
+                            ? 'group-hover:text-[#0DF5E3] retro-glow' 
                             : 'group-hover:text-accent-foreground'
                         }`} />
                         <div className="flex flex-col">
                           <span className={`text-sm font-medium ${isRetroMode ? 'retro-text' : 'font-sans'}`}>
                             {item.title}
                           </span>
-                          <span className="text-xs opacity-70 group-hover:opacity-100">
+                          <span className={`text-xs opacity-70 group-hover:opacity-100 ${isRetroMode ? 'retro-text' : ''}`}>
                             {item.description}
                           </span>
                         </div>
