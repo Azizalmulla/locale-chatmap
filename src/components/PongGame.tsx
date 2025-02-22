@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const PongGame = () => {
+const SpaceGame = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameStarted, setGameStarted] = useState(false);
   
@@ -12,146 +12,170 @@ const PongGame = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const paddleHeight = 60;
-    const paddleWidth = 10;
-    const ballSize = 8;
-    
-    let ballX = canvas.width / 2;
-    let ballY = canvas.height / 2;
-    let ballSpeedX = 4;
-    let ballSpeedY = 4;
-    
-    let paddle1Y = canvas.height / 2 - paddleHeight / 2;
-    let paddle2Y = canvas.height / 2 - paddleHeight / 2;
-    let player1Score = 0;
-    let player2Score = 0;
-    
-    const aiSpeed = 4;
-    
-    function drawRect(x: number, y: number, width: number, height: number) {
-      ctx.fillStyle = '#0DF5E3';
-      ctx.fillRect(x, y, width, height);
+    // Game entities
+    const player = {
+      x: canvas.width / 2,
+      y: canvas.height - 30,
+      width: 30,
+      height: 20,
+      speed: 5
+    };
+
+    const bullets: { x: number; y: number; speed: number }[] = [];
+    const enemies: { x: number; y: number; width: number; height: number }[] = [];
+    let score = 0;
+
+    // Create initial enemies
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 3; j++) {
+        enemies.push({
+          x: 80 + i * 60,
+          y: 50 + j * 50,
+          width: 30,
+          height: 20
+        });
+      }
     }
-    
-    function drawCircle(x: number, y: number, radius: number) {
+
+    function drawPlayer() {
       ctx.fillStyle = '#0DF5E3';
       ctx.beginPath();
-      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.moveTo(player.x, player.y);
+      ctx.lineTo(player.x - player.width / 2, player.y + player.height);
+      ctx.lineTo(player.x + player.width / 2, player.y + player.height);
+      ctx.closePath();
       ctx.fill();
     }
-    
-    function drawText(text: string, x: number, y: number) {
+
+    function drawBullets() {
+      ctx.fillStyle = '#0DF5E3';
+      bullets.forEach(bullet => {
+        ctx.fillRect(bullet.x - 2, bullet.y - 8, 4, 8);
+      });
+    }
+
+    function drawEnemies() {
+      ctx.fillStyle = '#0DF5E3';
+      enemies.forEach(enemy => {
+        ctx.beginPath();
+        ctx.moveTo(enemy.x, enemy.y + enemy.height);
+        ctx.lineTo(enemy.x + enemy.width / 2, enemy.y);
+        ctx.lineTo(enemy.x + enemy.width, enemy.y + enemy.height);
+        ctx.closePath();
+        ctx.fill();
+      });
+    }
+
+    function drawScore() {
       ctx.fillStyle = '#0DF5E3';
       ctx.font = '30px VT323';
-      ctx.fillText(text, x, y);
+      ctx.fillText(`SCORE: ${score}`, 10, 30);
     }
-    
+
     function moveEverything() {
       if (!gameStarted) return;
-      
-      // AI Movement
-      if (paddle2Y + paddleHeight / 2 < ballY) {
-        paddle2Y += aiSpeed;
-      } else if (paddle2Y + paddleHeight / 2 > ballY) {
-        paddle2Y -= aiSpeed;
-      }
-      
-      ballX += ballSpeedX;
-      ballY += ballSpeedY;
-      
-      // Left paddle collision
-      if (ballX < paddleWidth + 10) {
-        if (ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
-          ballSpeedX = -ballSpeedX;
-          let deltaY = ballY - (paddle1Y + paddleHeight / 2);
-          ballSpeedY = deltaY * 0.15;
-        } else if (ballX < 0) {
-          player2Score++;
-          ballReset();
+
+      // Move bullets
+      for (let i = bullets.length - 1; i >= 0; i--) {
+        bullets[i].y -= bullets[i].speed;
+        if (bullets[i].y < 0) {
+          bullets.splice(i, 1);
         }
       }
-      
-      // Right paddle collision
-      if (ballX > canvas.width - paddleWidth - 10) {
-        if (ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
-          ballSpeedX = -ballSpeedX;
-          let deltaY = ballY - (paddle2Y + paddleHeight / 2);
-          ballSpeedY = deltaY * 0.15;
-        } else if (ballX > canvas.width) {
-          player1Score++;
-          ballReset();
+
+      // Check collisions
+      for (let i = enemies.length - 1; i >= 0; i--) {
+        for (let j = bullets.length - 1; j >= 0; j--) {
+          if (bullets[j] && enemies[i] &&
+              bullets[j].x > enemies[i].x &&
+              bullets[j].x < enemies[i].x + enemies[i].width &&
+              bullets[j].y > enemies[i].y &&
+              bullets[j].y < enemies[i].y + enemies[i].height) {
+            enemies.splice(i, 1);
+            bullets.splice(j, 1);
+            score += 100;
+            break;
+          }
         }
       }
-      
-      // Top and bottom collision
-      if (ballY < 0 || ballY > canvas.height) {
-        ballSpeedY = -ballSpeedY;
+
+      // Respawn enemies if all destroyed
+      if (enemies.length === 0) {
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 3; j++) {
+            enemies.push({
+              x: 80 + i * 60,
+              y: 50 + j * 50,
+              width: 30,
+              height: 20
+            });
+          }
+        }
       }
     }
-    
-    function ballReset() {
-      ballX = canvas.width / 2;
-      ballY = canvas.height / 2;
-      ballSpeedX = -ballSpeedX;
-      ballSpeedY = 4;
-    }
-    
+
     function drawEverything() {
-      // Clear canvas
+      // Clear canvas with retro effect
       ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
+
       if (!gameStarted) {
-        drawText('CLICK TO START', canvas.width / 2 - 100, canvas.height / 2);
+        ctx.fillStyle = '#0DF5E3';
+        ctx.font = '30px VT323';
+        ctx.fillText('CLICK TO START', canvas.width / 2 - 100, canvas.height / 2);
         return;
       }
-      
-      // Draw paddles
-      drawRect(10, paddle1Y, paddleWidth, paddleHeight);
-      drawRect(canvas.width - paddleWidth - 10, paddle2Y, paddleWidth, paddleHeight);
-      
-      // Draw ball
-      drawCircle(ballX, ballY, ballSize);
-      
-      // Draw scores
-      drawText(player1Score.toString(), 100, 100);
-      drawText(player2Score.toString(), canvas.width - 100, 100);
-      
-      // Draw center line
-      for (let i = 0; i < canvas.height; i += 40) {
-        drawRect(canvas.width / 2 - 1, i, 2, 20);
-      }
+
+      drawPlayer();
+      drawBullets();
+      drawEnemies();
+      drawScore();
     }
-    
+
     function handleMouseMove(event: MouseEvent) {
       const rect = canvas.getBoundingClientRect();
       const root = document.documentElement;
-      const mouseY = event.clientY - rect.top - root.scrollTop;
-      paddle1Y = mouseY - paddleHeight / 2;
-      
-      // Keep paddle within canvas bounds
-      if (paddle1Y < 0) {
-        paddle1Y = 0;
+      const mouseX = event.clientX - rect.left - root.scrollLeft;
+      player.x = mouseX;
+
+      // Keep player within canvas bounds
+      if (player.x < player.width / 2) {
+        player.x = player.width / 2;
       }
-      if (paddle1Y > canvas.height - paddleHeight) {
-        paddle1Y = canvas.height - paddleHeight;
+      if (player.x > canvas.width - player.width / 2) {
+        player.x = canvas.width - player.width / 2;
       }
     }
-    
+
+    function handleClick() {
+      if (!gameStarted) {
+        setGameStarted(true);
+        return;
+      }
+
+      // Create new bullet
+      bullets.push({
+        x: player.x,
+        y: player.y,
+        speed: 7
+      });
+    }
+
     canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('click', () => setGameStarted(true));
-    
+    canvas.addEventListener('click', handleClick);
+
     const gameLoop = setInterval(() => {
       moveEverything();
       drawEverything();
     }, 1000 / 60);
-    
+
     return () => {
       clearInterval(gameLoop);
       canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('click', handleClick);
     };
   }, [gameStarted]);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
@@ -171,4 +195,4 @@ const PongGame = () => {
   );
 };
 
-export default PongGame;
+export default SpaceGame;
