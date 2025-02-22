@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import ChatMessage from '@/components/ChatMessage';
@@ -12,9 +12,17 @@ interface Message {
 }
 
 const Home = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    { content: "Welcome to Locale! I'm your AI assistant. How can I help you discover your city today?", isAI: true }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  
+  useEffect(() => {
+    const agentName = localStorage.getItem('agentName') || 'AI Assistant';
+    setMessages([
+      { 
+        content: `Welcome to Locale! I'm ${agentName}, how can I help you discover your city today?`, 
+        isAI: true 
+      }
+    ]);
+  }, []);
 
   const generateResponse = async (prompt: string) => {
     const response = await fetch('/api/generate', {
