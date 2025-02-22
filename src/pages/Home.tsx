@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
 import { useRetroMode } from "./Index";
+import PongGame from "@/components/PongGame";
 
 const Home = () => {
   const { isRetroMode } = useRetroMode();
@@ -26,6 +27,14 @@ const Home = () => {
             isAI={true}
             isRetroMode={isRetroMode}
           />
+          {isRetroMode && (
+            <ChatMessage 
+              content="🕹️ Retro Mode activated! Play some Pong while we chat! Use your mouse to control the left paddle." 
+              isAI={true}
+              isRetroMode={true}
+            />
+          )}
+          {isRetroMode && <PongGame />}
         </div>
       </motion.div>
       <div className={`p-4 border-t ${
