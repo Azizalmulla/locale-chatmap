@@ -20,18 +20,14 @@ const ChatMessage = ({ content, isAI = false, isRetroMode = false }: ChatMessage
           rounded-lg p-4 
           ${isRetroMode
             ? isAI 
-              ? 'retro-message retro-glow' 
-              : 'bg-[#1EAEDB] text-white retro-border'
+              ? 'bg-black/40 border border-[#0DF5E3]/20 text-[#0DF5E3] retro-text retro-glow' 
+              : 'bg-[#0DF5E3]/10 border border-[#0DF5E3]/40 text-[#0DF5E3] retro-text'
             : isAI 
               ? 'bg-black border border-white/10' 
               : 'bg-white text-black'
           }
         `}>
-          <p className={`text-sm leading-relaxed ${
-            isRetroMode 
-              ? 'retro-text' 
-              : isAI ? 'text-white' : ''
-          }`}>
+          <p className={`text-sm leading-relaxed ${isRetroMode ? 'retro-text' : ''}`}>
             {content}
           </p>
         </div>
