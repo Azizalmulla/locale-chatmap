@@ -2,6 +2,7 @@
 import { BookOpen, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { useRetroMode } from "@/pages/Index";
 import {
   Sidebar,
   SidebarContent,
@@ -35,6 +36,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const location = useLocation();
+  const { isRetroMode } = useRetroMode();
 
   const isActiveRoute = (itemUrl: string) => {
     const currentPath = location.pathname.startsWith('/') ? location.pathname : `/${location.pathname}`;
@@ -45,21 +47,31 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="w-64 bg-black/20 backdrop-blur-xl border-r border-[#0FA0CE]/20">
+    <Sidebar className={`w-64 transition-all duration-300 ${
+      isRetroMode 
+        ? 'bg-black/20 backdrop-blur-xl border-r border-[#0FA0CE]/20' 
+        : 'bg-background border-r border-border'
+    }`}>
       <SidebarContent>
         <SidebarGroup>
           <div className="px-4 py-6 flex justify-center">
-            <div className="relative w-32 h-32 rounded-full overflow-hidden backdrop-blur-xl bg-black/20 flex items-center justify-center">
-              <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
-                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
-                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
-                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
-              </svg>
+            <div className={`relative w-32 h-32 rounded-full overflow-hidden flex items-center justify-center ${
+              isRetroMode ? 'backdrop-blur-xl bg-black/20' : 'bg-background/5'
+            }`}>
+              {isRetroMode ? (
+                <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
+                  <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                </svg>
+              ) : (
+                <div className="text-2xl font-bold text-primary">LOGO</div>
+              )}
             </div>
           </div>
-          <div className="sidebar-divider opacity-20" />
+          <div className={`sidebar-divider ${isRetroMode ? 'opacity-20' : ''}`} />
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -72,15 +84,27 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <Link 
                         to={item.url} 
-                        className={`sidebar-btn group retro-text ${
-                          isActiveRoute(item.url) 
-                            ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow' 
-                            : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
+                        className={`sidebar-btn group ${
+                          isRetroMode 
+                            ? 'retro-text ' + (
+                                isActiveRoute(item.url)
+                                  ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow'
+                                  : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
+                              )
+                            : isActiveRoute(item.url)
+                              ? 'bg-accent text-accent-foreground'
+                              : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                         }`}
                       >
-                        <item.icon className="sidebar-icon group-hover:text-[#D946EF]" />
+                        <item.icon className={`sidebar-icon ${
+                          isRetroMode 
+                            ? 'group-hover:text-[#D946EF]' 
+                            : 'group-hover:text-accent-foreground'
+                        }`} />
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium">{item.title}</span>
+                          <span className={`text-sm font-medium ${!isRetroMode && 'font-sans'}`}>
+                            {item.title}
+                          </span>
                           <span className="text-xs opacity-70 group-hover:opacity-100">
                             {item.description}
                           </span>
