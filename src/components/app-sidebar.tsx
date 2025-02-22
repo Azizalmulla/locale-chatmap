@@ -39,7 +39,6 @@ export function AppSidebar() {
   const { isRetroMode } = useRetroMode();
 
   const isActiveRoute = (itemUrl: string) => {
-    if (location.pathname === '/' || location.pathname === '/index') return false;
     return location.pathname === itemUrl || (itemUrl === '/app' && location.pathname === '/app/chat');
   };
 
@@ -106,9 +105,9 @@ export function AppSidebar() {
                                 ? 'bg-[#0DF5E3]/10 text-[#0DF5E3] retro-glow'
                                 : 'text-[#0DF5E3]/80 hover:text-[#0DF5E3] hover:retro-glow'
                             )
-                          : isActiveRoute(item.url)
-                            ? 'bg-accent text-accent-foreground'
-                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                          : location.pathname === item.url
+                            ? 'text-accent-foreground'
+                            : 'text-muted-foreground hover:text-accent-foreground hover:bg-accent/50'
                       }`}
                     >
                       <motion.div
