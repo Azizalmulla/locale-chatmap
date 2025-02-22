@@ -1,4 +1,3 @@
-
 import { BookOpen, Map, TrendingUp, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -56,11 +55,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <div className="px-4 py-6 flex flex-col items-center gap-4">
             <motion.div 
-              className={`relative w-32 h-32 rounded-full overflow-hidden flex items-center justify-center ${
-                isRetroMode 
-                  ? 'backdrop-blur-xl bg-black/20 border-2 border-[#0FA0CE]/30' 
-                  : 'bg-accent/5 border border-border'
-              }`}
+              className={`relative w-32 h-32 flex items-center justify-center`}
               initial={false}
               animate={{ scale: isRetroMode ? 1.05 : 1 }}
               transition={{ duration: 0.3 }}
@@ -69,7 +64,7 @@ export function AppSidebar() {
                 <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke={isRetroMode ? "#0FA0CE" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
                 <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke={isRetroMode ? "#D946EF" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
                 <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke={isRetroMode ? "#0FA0CE" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
-                <path d="M45 50 Q100 42 155 50 Q100 58 45 50" stroke={isRetroMode ? "#D946EF" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke={isRetroMode ? "#D946EF" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
               </svg>
             </motion.div>
             <button
