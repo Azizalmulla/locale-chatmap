@@ -11,7 +11,7 @@ const MapView = () => {
         transition={{ duration: 0.6 }}
         className="h-screen p-4"
       >
-        <div className="h-full rounded-lg overflow-hidden ring-1 ring-white/10">
+        <div className="h-full rounded-lg overflow-hidden ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]">
           <Map className="w-full h-full" />
         </div>
       </motion.div>

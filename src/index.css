@@ -1,3 +1,4 @@
+
 @import '@fontsource/inter/300.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
@@ -140,6 +141,15 @@
 
 .mapboxgl-ctrl-top-right {
   @apply !top-4 !right-4;
+}
+
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
 }
 
 @keyframes fade-in {
