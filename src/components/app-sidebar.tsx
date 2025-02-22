@@ -55,9 +55,16 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="px-4 py-6 flex justify-center">
-            <div className={`relative w-32 h-32 rounded-full overflow-hidden flex items-center justify-center ${
-              isRetroMode ? 'backdrop-blur-xl bg-black/20' : 'bg-background/5'
-            }`}>
+            <motion.div 
+              className={`relative w-32 h-32 rounded-full overflow-hidden flex items-center justify-center ${
+                isRetroMode 
+                  ? 'backdrop-blur-xl bg-black/20 border-2 border-[#0FA0CE]/30' 
+                  : 'bg-accent/5 border border-border'
+              }`}
+              initial={false}
+              animate={{ scale: isRetroMode ? 1.05 : 1 }}
+              transition={{ duration: 0.3 }}
+            >
               {isRetroMode ? (
                 <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
                   <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
@@ -67,9 +74,9 @@ export function AppSidebar() {
                   <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
                 </svg>
               ) : (
-                <div className="text-2xl font-bold text-primary">LOGO</div>
+                <div className="text-4xl font-black text-primary tracking-tight">LVB</div>
               )}
-            </div>
+            </motion.div>
           </div>
           <div className={`sidebar-divider ${isRetroMode ? 'opacity-20' : ''}`} />
           <SidebarGroupContent>
