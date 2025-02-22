@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 interface ChatMessageProps {
   content: string;
   isAI?: boolean;
+  isRetroMode?: boolean;
 }
 
-const ChatMessage = ({ content, isAI = false }: ChatMessageProps) => {
+const ChatMessage = ({ content, isAI = false, isRetroMode = false }: ChatMessageProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -17,12 +18,20 @@ const ChatMessage = ({ content, isAI = false }: ChatMessageProps) => {
       <div className="max-w-3xl mx-auto">
         <div className={`
           rounded-lg p-4 
-          ${isAI 
-            ? 'bg-black border border-white/10' 
-            : 'bg-white text-black'
+          ${isRetroMode
+            ? isAI 
+              ? 'retro-message retro-glow' 
+              : 'bg-[#1EAEDB] text-white retro-border'
+            : isAI 
+              ? 'bg-black border border-white/10' 
+              : 'bg-white text-black'
           }
         `}>
-          <p className={`text-sm leading-relaxed ${isAI ? 'text-white' : ''}`}>
+          <p className={`text-sm leading-relaxed ${
+            isRetroMode 
+              ? 'retro-text' 
+              : isAI ? 'text-white' : ''
+          }`}>
             {content}
           </p>
         </div>

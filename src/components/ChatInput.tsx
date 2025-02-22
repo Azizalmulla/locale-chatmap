@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
+  isRetroMode?: boolean;
 }
 
-const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
+const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
 
@@ -25,7 +26,11 @@ const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="p-4 border-t border-white/10 bg-[#343541]"
+      className={`p-4 border-t ${
+        isRetroMode 
+          ? 'border-[#D946EF] bg-[#1A1F2C]' 
+          : 'border-white/10 bg-[#343541]'
+      }`}
     >
       <form onSubmit={handleSubmit} className="max-w-3xl mx-auto flex items-center gap-3">
         <motion.button
@@ -34,7 +39,13 @@ const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
           type="button"
           onClick={() => setIsRecording(!isRecording)}
           className={`p-2 rounded-lg transition-colors ${
-            isRecording ? 'bg-red-500/20 text-red-500' : 'hover:bg-white/5 text-gray-400'
+            isRetroMode
+              ? isRecording
+                ? 'bg-[#D946EF]/20 text-[#D946EF] retro-glow'
+                : 'hover:bg-[#D946EF]/20 text-[#D946EF]'
+              : isRecording
+              ? 'bg-red-500/20 text-red-500'
+              : 'hover:bg-white/5 text-gray-400'
           }`}
           disabled={disabled}
         >
@@ -46,9 +57,11 @@ const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your message..."
-          className="flex-1 bg-[#40414F] px-4 py-3 rounded-lg text-sm text-gray-200
-                   placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-white/20
-                   transition-colors disabled:opacity-50"
+          className={`flex-1 px-4 py-3 rounded-lg text-sm
+            ${isRetroMode 
+              ? 'retro-input retro-text text-[#F97316] placeholder:text-[#F97316]/50' 
+              : 'bg-[#40414F] text-gray-200 placeholder:text-gray-400 focus:ring-1 focus:ring-white/20'
+            } focus:outline-none transition-colors disabled:opacity-50`}
           disabled={disabled}
         />
         
@@ -56,8 +69,11 @@ const ChatInput = ({ onSendMessage, disabled = false }: ChatInputProps) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="p-2 rounded-lg hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed
-                   transition-colors text-gray-400"
+          className={`p-2 rounded-lg transition-colors ${
+            isRetroMode
+              ? 'text-[#0FA0CE] hover:bg-[#0FA0CE]/20 retro-glow'
+              : 'hover:bg-white/5 text-gray-400'
+          } disabled:opacity-50 disabled:cursor-not-allowed`}
           disabled={!message.trim() || disabled}
         >
           <Send className="w-5 h-5" />
