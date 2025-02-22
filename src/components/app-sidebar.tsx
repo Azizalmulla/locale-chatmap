@@ -66,12 +66,10 @@ export function AppSidebar() {
               transition={{ duration: 0.3 }}
             >
               {isRetroMode ? (
-                <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
-                  <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                <svg className="w-20 h-20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <circle cx="12" cy="12" r="4" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <circle cx="12" cy="12" r="2" fill="#F97316" className="retro-glow"/>
                 </svg>
               ) : (
                 <Eye className="w-20 h-20 text-primary" />
