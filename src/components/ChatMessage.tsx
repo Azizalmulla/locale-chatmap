@@ -12,10 +12,10 @@ const ChatMessage = ({ content, isAI = false }: ChatMessageProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`px-4 py-6 ${isAI ? 'bg-[#444654]' : 'bg-transparent'}`}
+      className={`px-4 py-6 ${isAI ? 'bg-black' : 'bg-transparent'}`}
     >
       <div className="max-w-3xl mx-auto">
-        <p className="text-sm text-gray-200 leading-relaxed">{content}</p>
+        <p className="text-sm text-white leading-relaxed">{content}</p>
       </div>
     </motion.div>
   );

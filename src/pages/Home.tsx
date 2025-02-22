@@ -58,7 +58,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen bg-[#343541]">
+    <div className="flex-1 flex flex-col h-screen bg-black">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
