@@ -65,7 +65,17 @@ export function AppSidebar() {
               animate={{ scale: isRetroMode ? 1.05 : 1 }}
               transition={{ duration: 0.3 }}
             >
-              <Eye className={`w-20 h-20 ${isRetroMode ? 'text-[#0FA0CE] retro-glow' : 'text-primary'}`} />
+              {isRetroMode ? (
+                <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-28 h-28">
+                  <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
+                  <circle cx="100" cy="50" r="10" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
+                </svg>
+              ) : (
+                <Eye className="w-20 h-20 text-primary" />
+              )}
             </motion.div>
             <button
               onClick={toggleRetroMode}
@@ -82,26 +92,23 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title} className="sidebar-menu-item">
-                  <motion.div
-                    whileHover={{ x: 4, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full"
-                  >
-                    <SidebarMenuButton asChild>
-                      <Link 
-                        to={item.url} 
-                        className={`sidebar-btn group flex items-center gap-3 px-4 py-2 w-full ${
-                          isRetroMode 
-                            ? 'retro-text ' + (
-                                isActiveRoute(item.url)
-                                  ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow'
-                                  : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
-                              )
-                            : isActiveRoute(item.url)
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                        }`}
+                <SidebarMenuItem key={item.title}>
+                  <Link to={item.url}>
+                    <SidebarMenuButton className={`w-full ${
+                      isRetroMode 
+                        ? 'retro-text ' + (
+                            isActiveRoute(item.url)
+                              ? 'bg-[#D946EF]/10 text-[#D946EF] retro-glow'
+                              : 'text-[#0FA0CE] hover:text-[#D946EF] hover:retro-glow'
+                          )
+                        : isActiveRoute(item.url)
+                          ? 'bg-accent text-accent-foreground'
+                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                    }`}>
+                      <motion.div
+                        whileHover={{ x: 4, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center gap-3 px-4 py-2 w-full"
                       >
                         <item.icon className={`w-4 h-4 shrink-0 ${
                           isRetroMode 
@@ -116,9 +123,9 @@ export function AppSidebar() {
                             {item.description}
                           </span>
                         </div>
-                      </Link>
+                      </motion.div>
                     </SidebarMenuButton>
-                  </motion.div>
+                  </Link>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
