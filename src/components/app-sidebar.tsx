@@ -101,7 +101,7 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <Link 
                         to={item.url} 
-                        className={`sidebar-btn group ${
+                        className={`sidebar-btn group flex items-center gap-3 px-4 py-2 w-full ${
                           isRetroMode 
                             ? 'retro-text ' + (
                                 isActiveRoute(item.url)
@@ -113,7 +113,7 @@ export function AppSidebar() {
                               : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                         }`}
                       >
-                        <item.icon className={`sidebar-icon ${
+                        <item.icon className={`w-4 h-4 shrink-0 ${
                           isRetroMode 
                             ? 'group-hover:text-[#D946EF]' 
                             : 'group-hover:text-accent-foreground'
@@ -137,4 +137,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-};
+}
