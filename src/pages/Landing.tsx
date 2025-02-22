@@ -9,7 +9,7 @@ const Landing = () => {
 
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
-      navigate('/app');
+      navigate('/setup');
     }
   };
 
