@@ -1,10 +1,10 @@
-
 @import '@fontsource/inter/300.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 @import 'mapbox-gl/dist/mapbox-gl.css';
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -87,8 +87,8 @@
 
   .retro-grid {
     background-image: 
-      linear-gradient(rgba(32, 32, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(32, 32, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(0, 255, 128, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 128, 0.05) 1px, transparent 1px);
     background-size: 20px 20px;
     background-position: -1px -1px;
   }
@@ -102,7 +102,7 @@
     background: linear-gradient(
       to bottom,
       transparent,
-      rgba(32, 32, 255, 0.05) 50%,
+      rgba(0, 255, 128, 0.05) 50%,
       transparent 100%
     );
     background-size: 100% 4px;
@@ -112,14 +112,14 @@
   }
 
   .retro-text {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'VT323', monospace;
     letter-spacing: 1px;
     line-height: 1.5;
   }
 
   .retro-border {
-    border: 2px solid #0FA0CE;
-    box-shadow: 0 0 10px #0FA0CE80, inset 0 0 10px #0FA0CE80;
+    border: 2px solid #00ff80;
+    box-shadow: 0 0 10px #00ff8080, inset 0 0 10px #00ff8080;
   }
 
   .retro-message {
@@ -175,5 +175,3 @@
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
