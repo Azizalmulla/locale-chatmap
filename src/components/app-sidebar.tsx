@@ -1,4 +1,3 @@
-
 import { BookOpen, Map, TrendingUp, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -65,17 +64,13 @@ export function AppSidebar() {
               animate={{ scale: isRetroMode ? 1.05 : 1 }}
               transition={{ duration: 0.3 }}
             >
-              {isRetroMode ? (
-                <svg className="w-24 h-24" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#0FA0CE" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#D946EF" strokeWidth="2" className="retro-glow" fill="none"/>
-                  <circle cx="100" cy="50" r="10" stroke="#F97316" strokeWidth="2" className="retro-glow" fill="none"/>
-                </svg>
-              ) : (
-                <Eye className="w-20 h-20 text-primary" />
-              )}
+              <svg className="w-24 h-24" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke={isRetroMode ? "#0FA0CE" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke={isRetroMode ? "#D946EF" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke={isRetroMode ? "#0FA0CE" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke={isRetroMode ? "#D946EF" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+                <circle cx="100" cy="50" r="10" stroke={isRetroMode ? "#F97316" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
+              </svg>
             </motion.div>
             <button
               onClick={toggleRetroMode}
