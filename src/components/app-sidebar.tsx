@@ -54,19 +54,36 @@ export function AppSidebar() {
     }`}>
       <SidebarContent>
         <SidebarGroup>
-          <div className="px-4 py-6 flex flex-col items-center">
+          <div className="px-4 py-6 flex flex-col items-center overflow-hidden">
             <motion.div 
               className="relative w-32 h-32 flex items-center justify-center"
               initial={false}
-              animate={{ 
-                scale: isRetroMode ? [1, 1.05, 1] : 1,
-                rotate: isRetroMode ? [0, -5, 0, 5, 0] : 0
-              }}
-              transition={{ 
-                duration: isRetroMode ? 2 : 0.3,
-                repeat: isRetroMode ? Infinity : 0,
-                repeatDelay: 3
-              }}
+              animate={
+                isRetroMode
+                  ? {
+                      scale: [1, 0.5, 1.2, 1],
+                      rotate: [0, -180, 180, 0],
+                      x: [-50, 50, 0],
+                      y: [-30, 30, 0],
+                    }
+                  : {
+                      scale: 1,
+                      rotate: 0,
+                      x: 0,
+                      y: 0,
+                    }
+              }
+              transition={
+                isRetroMode
+                  ? {
+                      duration: 1.5,
+                      times: [0, 0.4, 0.7, 1],
+                      ease: "easeInOut",
+                    }
+                  : {
+                      duration: 0.5,
+                    }
+              }
             >
               <svg className="w-24 h-24" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke={isRetroMode ? "#0DF5E3" : "#64748b"} strokeWidth="2" className={isRetroMode ? "retro-glow" : ""} fill="none"/>
