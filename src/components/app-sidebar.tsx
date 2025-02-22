@@ -1,4 +1,3 @@
-
 import { BookOpen, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -39,11 +38,7 @@ export function AppSidebar() {
   const { isRetroMode } = useRetroMode();
 
   const isActiveRoute = (itemUrl: string) => {
-    const currentPath = location.pathname.startsWith('/') ? location.pathname : `/${location.pathname}`;
-    if (itemUrl === '/app') {
-      return currentPath === '/app' || currentPath === '/app/';
-    }
-    return currentPath === itemUrl;
+    return location.pathname === itemUrl || (itemUrl === '/app' && location.pathname === '/app/chat');
   };
 
   return (
