@@ -9,7 +9,7 @@ const Landing = () => {
 
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
-      navigate('/app');
+      navigate('/setup');  // Changed from '/app' to '/setup'
     }
   };
 
@@ -33,7 +33,7 @@ const Landing = () => {
       </div>
       
       <div 
-        onClick={() => navigate('/app')}
+        onClick={() => navigate('/setup')}  // Changed from '/app' to '/setup'
         className="absolute bottom-24 z-10 cursor-pointer w-full h-12"
       />
     </motion.div>
