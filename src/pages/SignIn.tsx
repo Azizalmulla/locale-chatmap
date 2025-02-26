@@ -25,7 +25,11 @@ const SignInPage = () => {
             dividerLine: "bg-white/20",
             dividerText: "text-white/60",
             footer: "text-white/60",
+            phoneInput: "bg-white/10 border-white/20 text-white"
           }
+        }}
+        initialValues={{
+          phoneNumber: "+1"  // Default country code for US
         }}
       />
     </motion.div>
