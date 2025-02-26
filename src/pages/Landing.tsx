@@ -9,7 +9,7 @@ const Landing = () => {
 
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
-      navigate('/signin');
+      navigate('/sign-in');
     }
   };
 
@@ -33,7 +33,7 @@ const Landing = () => {
       </div>
       
       <div 
-        onClick={() => navigate('/signin')}
+        onClick={() => navigate('/sign-in')}
         className="absolute bottom-24 z-10 cursor-pointer w-full h-12"
       />
     </motion.div>
