@@ -10,9 +10,9 @@ const SignInPage = () => {
       className="min-h-screen w-full flex flex-col items-center justify-center bg-black"
     >
       <SignIn
-        routing="path"
-        path="/signin"
-        signUpUrl="/signup"
+        routing="hash"
+        path="/sign-in"
+        signUpUrl="/sign-up"
         redirectUrl="/setup"
         appearance={{
           elements: {

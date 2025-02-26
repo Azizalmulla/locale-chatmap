@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
 import Landing from './pages/Landing';
@@ -15,7 +14,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/signin" element={<Navigate to="/sign-in" replace />} />
         
         {/* Protected Routes */}
         <Route
@@ -26,7 +26,7 @@ function App() {
                 <AgentSetup />
               </SignedIn>
               <SignedOut>
-                <Navigate to="/signin" replace />
+                <Navigate to="/sign-in" replace />
               </SignedOut>
             </>
           }
@@ -39,7 +39,7 @@ function App() {
                 <AgentPersonality />
               </SignedIn>
               <SignedOut>
-                <Navigate to="/signin" replace />
+                <Navigate to="/sign-in" replace />
               </SignedOut>
             </>
           }
@@ -52,7 +52,7 @@ function App() {
                 <Index />
               </SignedIn>
               <SignedOut>
-                <Navigate to="/signin" replace />
+                <Navigate to="/sign-in" replace />
               </SignedOut>
             </>
           }
