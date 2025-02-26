@@ -21,9 +21,7 @@ import { ArrowRight } from 'lucide-react';
 const personalities = [
   { value: 'funny', label: 'Funny - Always ready with a witty response' },
   { value: 'chill', label: 'Chill - Relaxed and easy-going' },
-  { value: 'professional', label: 'Professional - Formal and business-like' },
-  { value: 'creative', label: 'Creative - Imaginative and artistic' },
-  { value: 'enthusiastic', label: 'Enthusiastic - High-energy and excited' }
+  { value: 'professional', label: 'Professional - Formal and business-like' }
 ];
 
 const AgentPersonality = () => {
