@@ -2,6 +2,7 @@
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ClerkProvider } from '@clerk/clerk-react';
+import { Toaster } from 'sonner';
 import App from './App.tsx';
 import './index.css';
 
@@ -15,20 +16,21 @@ const queryClient = new QueryClient({
 });
 
 // Import publishable key from environment variable
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_a25vd24tc3BpZGVyLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
+  console.error("Missing Clerk Publishable Key");
 }
 
 createRoot(document.getElementById("root")!).render(
   <ClerkProvider 
-    publishableKey={PUBLISHABLE_KEY}
+    publishableKey={PUBLISHABLE_KEY || ''}
     afterSignInUrl="/setup"
     afterSignUpUrl="/setup"
   >
     <QueryClientProvider client={queryClient}>
       <App />
+      <Toaster position="bottom-right" />
     </QueryClientProvider>
   </ClerkProvider>
 );
