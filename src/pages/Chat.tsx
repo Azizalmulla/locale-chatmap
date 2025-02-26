@@ -5,8 +5,9 @@ import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 
 const Chat = () => {
+  const agentName = localStorage.getItem('agentName') || 'Agent';
   const [messages, setMessages] = useState<Array<{ content: string; isAI: boolean }>>([
-    { content: "Welcome to Locale! How can I assist you today?", isAI: true }
+    { content: `Hello! I'm ${agentName}, how can I help you today?`, isAI: true }
   ]);
 
   const handleSendMessage = (content: string) => {
