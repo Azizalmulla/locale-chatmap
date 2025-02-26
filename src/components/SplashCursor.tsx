@@ -909,4 +909,4 @@ function SplashCursor({
       // Gradient Subtract
       gradienSubtractProgram.bind();
       gl.uniform2f(
-        gradienSubtractProgram.uniforms.texelSize
+        gradienSubtractProgram.uniforms.tex
