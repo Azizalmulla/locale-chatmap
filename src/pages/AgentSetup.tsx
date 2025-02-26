@@ -10,13 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Shuffle, ArrowRight, Keyboard } from 'lucide-react';
-
-const suggestedNames = ['Atlas', 'Nova', 'Echo', 'Sage'];
-const randomNames = [
-  'Luna', 'Orion', 'Aria', 'Zephyr', 'Cyrus', 'Lyra', 
-  'Felix', 'Aurora', 'Neo', 'Iris', 'Thea', 'Atlas'
-];
+import { ArrowRight, Keyboard } from 'lucide-react';
 
 const AgentSetup = () => {
   const [agentName, setAgentName] = useState('');
@@ -32,11 +26,6 @@ const AgentSetup = () => {
     }
   };
 
-  const getRandomName = () => {
-    const randomIndex = Math.floor(Math.random() * randomNames.length);
-    setAgentName(randomNames[randomIndex]);
-  };
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsTyping(false);
@@ -46,11 +35,6 @@ const AgentSetup = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zM22.343 0L13.8 8.544l1.414 1.414 9.9-9.9h-2.77zm22.314 0L53.2 8.544 51.785 9.958l-9.9-9.9h2.77zm-16.657 0L36.143 8.544l-1.414 1.414L25.272 0h2.828zm11 0L48.143 8.544l-1.415 1.414L37.272 0h2.828zm-5.343 0L42.143 8.544l-1.414 1.414L31.272 0h2.828zm-11 0L24.143 8.544l-1.414 1.414L13.272 0h2.828zm-5.344 0L18.142 8.544l-1.414 1.414L7.272 0h2.828z' fill='%23FFFFFF' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-      }} />
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -77,10 +61,10 @@ const AgentSetup = () => {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Name Your AI Companion
+            Name Your Agent
           </motion.h1>
           <p className="text-white/60 text-lg">
-            Begin your journey with a personalized AI assistant
+            Begin your journey with a personalized AI agent
           </p>
         </div>
         
@@ -88,7 +72,7 @@ const AgentSetup = () => {
           <div className="relative group">
             <Input
               type="text"
-              placeholder="Name your AI companion..."
+              placeholder="Name your agent..."
               value={agentName}
               onChange={(e) => {
                 setAgentName(e.target.value);
@@ -99,31 +83,6 @@ const AgentSetup = () => {
                 group-hover:bg-white/10"
               autoFocus
             />
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white hover:bg-white/10"
-              onClick={getRandomName}
-            >
-              <Shuffle className="w-4 h-4" />
-            </Button>
-          </div>
-
-          {/* Suggested Names */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {suggestedNames.map((name) => (
-              <motion.button
-                key={name}
-                type="button"
-                onClick={() => setAgentName(name)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-4 py-2 rounded-full bg-white/5 text-white/80 text-sm hover:bg-white/10 transition-all duration-200"
-              >
-                {name}
-              </motion.button>
-            ))}
           </div>
 
           <TooltipProvider>
