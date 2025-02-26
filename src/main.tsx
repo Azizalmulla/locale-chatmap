@@ -24,7 +24,9 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById("root")!).render(
   <ClerkProvider 
     publishableKey={PUBLISHABLE_KEY}
-    navigate={(to) => window.location.href = to}
+    navigate={(to) => {
+      window.location.href = to;
+    }}
     afterSignInUrl="/setup"
     afterSignUpUrl="/setup"
   >
