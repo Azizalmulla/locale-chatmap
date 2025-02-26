@@ -32,15 +32,10 @@ const Landing = () => {
         />
       </div>
       
-      {/* Added clickable button */}
-      <motion.button
+      <div 
         onClick={() => navigate('/setup')}
-        className="absolute bottom-24 z-10 px-8 py-2 rounded-full border border-white/20 bg-transparent hover:bg-white/5 transition-colors duration-300"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <span className="text-white/60 text-sm font-medium">OPEN APP</span>
-      </motion.button>
+        className="absolute bottom-24 z-10 cursor-pointer w-full h-12"
+      />
     </motion.div>
   );
 };
