@@ -14,7 +14,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const PUBLISHABLE_KEY = "pk_test_a25vd24tc3BpZGVyLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
+// Import publishable key from environment variable
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_a25vd24tc3BpZGVyLTY4LmNsZXJrLmFjY291bnRzLmRldiQ";
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
@@ -24,6 +25,8 @@ createRoot(document.getElementById("root")!).render(
   <ClerkProvider 
     publishableKey={PUBLISHABLE_KEY}
     navigate={(to) => window.location.href = to}
+    afterSignInUrl="/setup"
+    afterSignUpUrl="/setup"
   >
     <QueryClientProvider client={queryClient}>
       <App />
