@@ -15,33 +15,68 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/sign-in" element={<SignInPage />} />
+        {/* Public routes */}
+        <Route
+          path="/"
+          element={
+            <>
+              <SignedIn>
+                <Navigate to="/app" replace />
+              </SignedIn>
+              <SignedOut>
+                <Landing />
+              </SignedOut>
+            </>
+          }
+        />
+        
+        {/* Auth routes */}
+        <Route
+          path="/sign-in"
+          element={
+            <>
+              <SignedIn>
+                <Navigate to="/app" replace />
+              </SignedIn>
+              <SignedOut>
+                <SignInPage />
+              </SignedOut>
+            </>
+          }
+        />
         <Route path="/signin" element={<Navigate to="/sign-in" replace />} />
+        
         <Route 
           path="/sign-up" 
           element={
-            <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black">
-              <SignUp 
-                signInUrl="/sign-in"
-                redirectUrl="/setup"
-                appearance={{
-                  elements: {
-                    formButtonPrimary: 
-                      "bg-white hover:bg-white/90 text-black",
-                    card: "bg-black/50 backdrop-blur-xl border border-white/10",
-                    headerTitle: "text-white",
-                    headerSubtitle: "text-white/60",
-                    socialButtonsBlockButton: "text-white border-white/20",
-                    formFieldLabel: "text-white/80",
-                    formFieldInput: "bg-white/10 border-white/20 text-white",
-                    dividerLine: "bg-white/20",
-                    dividerText: "text-white/60",
-                    footer: "text-white/60",
-                  }
-                }}
-              />
-            </div>
+            <>
+              <SignedIn>
+                <Navigate to="/app" replace />
+              </SignedIn>
+              <SignedOut>
+                <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black">
+                  <SignUp 
+                    signInUrl="/sign-in"
+                    redirectUrl="/setup"
+                    appearance={{
+                      elements: {
+                        formButtonPrimary: 
+                          "bg-white hover:bg-white/90 text-black",
+                        card: "bg-black/50 backdrop-blur-xl border border-white/10",
+                        headerTitle: "text-white",
+                        headerSubtitle: "text-white/60",
+                        socialButtonsBlockButton: "text-white border-white/20",
+                        formFieldLabel: "text-white/80",
+                        formFieldInput: "bg-white/10 border-white/20 text-white",
+                        dividerLine: "bg-white/20",
+                        dividerText: "text-white/60",
+                        footer: "text-white/60",
+                      }
+                    }}
+                  />
+                </div>
+              </SignedOut>
+            </>
           }
         />
         <Route path="/signup" element={<Navigate to="/sign-up" replace />} />
