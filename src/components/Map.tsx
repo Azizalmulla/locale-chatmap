@@ -6,28 +6,29 @@ import { motion } from 'framer-motion';
 
 interface MapProps {
   className?: string;
+  coordinates?: [number, number] | null;
+  zoom?: number;
 }
 
-const Map: React.FC<MapProps> = ({ className }) => {
+const Map: React.FC<MapProps> = ({ className, coordinates, zoom }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const marker = useRef<mapboxgl.Marker | null>(null);
 
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map with a temporary token
     mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGxxZ3ljemowMHd3MmpxcjRxc2xtZm1sIn0.qHQqRNvuGwn_2CsGh0CCQQ';
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       projection: 'globe',
-      zoom: 1.5,
-      center: [30, 15],
+      zoom: zoom || 1.5,
+      center: coordinates || [30, 15],
       pitch: 45,
     });
 
-    // Add navigation controls
     map.current.addControl(
       new mapboxgl.NavigationControl({
         visualizePitch: true,
@@ -35,10 +36,8 @@ const Map: React.FC<MapProps> = ({ className }) => {
       'top-right'
     );
 
-    // Disable scroll zoom for smoother experience
     map.current.scrollZoom.disable();
 
-    // Add atmosphere and fog effects
     map.current.on('style.load', () => {
       map.current?.setFog({
         color: 'rgb(20, 20, 20)',
@@ -47,11 +46,27 @@ const Map: React.FC<MapProps> = ({ className }) => {
       });
     });
 
-    // Cleanup
     return () => {
+      marker.current?.remove();
       map.current?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (!map.current || !coordinates) return;
+
+    marker.current?.remove();
+    marker.current = new mapboxgl.Marker()
+      .setLngLat(coordinates)
+      .addTo(map.current);
+
+    map.current.flyTo({
+      center: coordinates,
+      zoom: zoom || map.current.getZoom(),
+      duration: 2000,
+      essential: true
+    });
+  }, [coordinates, zoom]);
 
   return (
     <motion.div
