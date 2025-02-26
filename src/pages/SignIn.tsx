@@ -29,7 +29,7 @@ const SignInPage = () => {
           }
         }}
         initialValues={{
-          phoneNumber: "+1"  // Default country code for US
+          phoneNumber: "+965"  // Kuwait country code
         }}
       />
     </motion.div>
