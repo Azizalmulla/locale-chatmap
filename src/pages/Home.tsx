@@ -8,6 +8,7 @@ import PongGame from "@/components/PongGame";
 
 const Home = () => {
   const { isRetroMode } = useRetroMode();
+  const agentName = localStorage.getItem('agentName') || 'Agent';
 
   const handleSendMessage = (message: string) => {
     console.log("Message sent:", message);
@@ -23,13 +24,13 @@ const Home = () => {
       >
         <div className={`max-w-4xl mx-auto ${isRetroMode ? 'space-y-6' : 'space-y-4'}`}>
           <ChatMessage 
-            content="Welcome to the AI Guide! How can I assist you today?" 
+            content={`${agentName} here, how can I help you today?`}
             isAI={true}
             isRetroMode={isRetroMode}
           />
           {isRetroMode && (
             <ChatMessage 
-              content="🕹️ Retro Mode activated! Play some Pong while we chat! Use your mouse to control the left paddle." 
+              content="🕹️ Retro Mode activated! Play some Space Invaders while we chat! Use your mouse to control the ship and click to shoot." 
               isAI={true}
               isRetroMode={true}
             />
