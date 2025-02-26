@@ -1,6 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { SignedIn, SignedOut } from '@clerk/clerk-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import AgentSetup from './pages/AgentSetup';
 import AgentPersonality from './pages/AgentPersonality';
@@ -8,119 +7,16 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import MapView from './pages/MapView';
-import SignInPage from './pages/SignIn';
-import { SignUp } from '@clerk/clerk-react';
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* Public routes */}
-        <Route
-          path="/"
-          element={
-            <>
-              <SignedIn>
-                <Navigate to="/app" replace />
-              </SignedIn>
-              <SignedOut>
-                <Landing />
-              </SignedOut>
-            </>
-          }
-        />
-        
-        {/* Auth routes */}
-        <Route
-          path="/sign-in"
-          element={
-            <>
-              <SignedIn>
-                <Navigate to="/app" replace />
-              </SignedIn>
-              <SignedOut>
-                <SignInPage />
-              </SignedOut>
-            </>
-          }
-        />
-        <Route path="/signin" element={<Navigate to="/sign-in" replace />} />
-        
-        <Route 
-          path="/sign-up" 
-          element={
-            <>
-              <SignedIn>
-                <Navigate to="/app" replace />
-              </SignedIn>
-              <SignedOut>
-                <div className="min-h-screen w-full flex flex-col items-center justify-center bg-black">
-                  <SignUp 
-                    signInUrl="/sign-in"
-                    redirectUrl="/setup"
-                    appearance={{
-                      elements: {
-                        formButtonPrimary: 
-                          "bg-white hover:bg-white/90 text-black",
-                        card: "bg-black/50 backdrop-blur-xl border border-white/10",
-                        headerTitle: "text-white",
-                        headerSubtitle: "text-white/60",
-                        socialButtonsBlockButton: "text-white border-white/20",
-                        formFieldLabel: "text-white/80",
-                        formFieldInput: "bg-white/10 border-white/20 text-white",
-                        dividerLine: "bg-white/20",
-                        dividerText: "text-white/60",
-                        footer: "text-white/60",
-                      }
-                    }}
-                  />
-                </div>
-              </SignedOut>
-            </>
-          }
-        />
-        <Route path="/signup" element={<Navigate to="/sign-up" replace />} />
-        
-        {/* Protected Routes */}
-        <Route
-          path="/setup"
-          element={
-            <>
-              <SignedIn>
-                <AgentSetup />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/sign-in" replace />
-              </SignedOut>
-            </>
-          }
-        />
-        <Route
-          path="/personality"
-          element={
-            <>
-              <SignedIn>
-                <AgentPersonality />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/sign-in" replace />
-              </SignedOut>
-            </>
-          }
-        />
-        <Route
-          path="/app"
-          element={
-            <>
-              <SignedIn>
-                <Index />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/sign-in" replace />
-              </SignedOut>
-            </>
-          }
-        >
+        <Route path="/" element={<Landing />} />
+        <Route path="/setup" element={<AgentSetup />} />
+        <Route path="/personality" element={<AgentPersonality />} />
+        <Route path="/app" element={<Index />}>
           <Route index element={<Home />} />
           <Route path="chat" element={<Home />} />
           <Route path="map" element={<MapView />} />
