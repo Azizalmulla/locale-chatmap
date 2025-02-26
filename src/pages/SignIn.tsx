@@ -24,13 +24,15 @@ const SignInPage = () => {
             formFieldInput: "bg-white/10 border-white/20 text-white",
             dividerLine: "bg-white/20",
             dividerText: "text-white/60",
-            footer: "text-white/60",
-            phoneInput: "bg-white/10 border-white/20 text-white"
+            footer: "text-white/60"
           }
         }}
-        initialValues={{
-          phoneNumber: "+965"  // Kuwait country code
-        }}
+        path="/sign-in"
+        routing="path"
+        signInUrl="/sign-in"
+        afterSignInUrl="/setup"
+        signUpUrl="/sign-up"
+        socialButtonsPlacement="bottom"
       />
     </motion.div>
   );
