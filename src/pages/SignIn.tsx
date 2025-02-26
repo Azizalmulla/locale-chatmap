@@ -27,9 +27,6 @@ const SignInPage = () => {
             footer: "text-white/60"
           }
         }}
-        routing="path"
-        path="/sign-in"
-        socialButtonsPlacement="bottom"
       />
     </motion.div>
   );
