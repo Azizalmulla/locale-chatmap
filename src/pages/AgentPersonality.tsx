@@ -1,8 +1,14 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -10,28 +16,27 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowRight, Keyboard } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-const AgentSetup = () => {
-  const [agentName, setAgentName] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [showKeyboardTips, setShowKeyboardTips] = useState(false);
+const personalities = [
+  { value: 'funny', label: 'Funny - Always ready with a witty response' },
+  { value: 'chill', label: 'Chill - Relaxed and easy-going' },
+  { value: 'professional', label: 'Professional - Formal and business-like' },
+  { value: 'creative', label: 'Creative - Imaginative and artistic' },
+  { value: 'enthusiastic', label: 'Enthusiastic - High-energy and excited' }
+];
+
+const AgentPersonality = () => {
+  const [personality, setPersonality] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (agentName.trim()) {
-      localStorage.setItem('agentName', agentName.trim());
-      navigate('/personality');  // Changed this line to go to personality screen
+    if (personality) {
+      localStorage.setItem('agentPersonality', personality);
+      navigate('/app');
     }
   };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsTyping(false);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [agentName]);
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
@@ -61,28 +66,32 @@ const AgentSetup = () => {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Name Your Agent
+            Choose Personality
           </motion.h1>
           <p className="text-white/60 text-lg">
-            Begin your journey with a personalized AI agent
+            Select your agent's unique personality traits
           </p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative group">
-            <Input
-              type="text"
-              placeholder="Name your agent..."
-              value={agentName}
-              onChange={(e) => {
-                setAgentName(e.target.value);
-                setIsTyping(true);
-              }}
-              className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-white placeholder:text-white/40 rounded-xl transition-all duration-300
-                focus:ring-2 focus:ring-white/20 focus:bg-white/10
-                group-hover:bg-white/10"
-              autoFocus
-            />
+            <Select onValueChange={setPersonality} value={personality}>
+              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-white placeholder:text-white/40 rounded-xl transition-all duration-300
+                focus:ring-2 focus:ring-white/20 focus:bg-white/10 hover:bg-white/10">
+                <SelectValue placeholder="Select a personality..." />
+              </SelectTrigger>
+              <SelectContent className="bg-black/90 border-white/10">
+                {personalities.map((p) => (
+                  <SelectItem 
+                    key={p.value} 
+                    value={p.value}
+                    className="text-white/90 focus:bg-white/10 focus:text-white"
+                  >
+                    {p.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <TooltipProvider>
@@ -91,13 +100,13 @@ const AgentSetup = () => {
                 <Button 
                   type="submit"
                   className="w-full h-14 text-lg font-medium rounded-xl relative overflow-hidden group bg-white/10"
-                  disabled={!agentName.trim()}
+                  disabled={!personality}
                 >
                   <motion.span 
                     className="relative z-10 flex items-center gap-2 text-white"
                     whileHover={{ x: 5 }}
                   >
-                    Meet Your Agent
+                    Continue
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </motion.span>
                   <motion.div
@@ -108,24 +117,14 @@ const AgentSetup = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Give your AI a unique identity for a more personal experience</p>
+                <p>Give your AI agent a distinct personality</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </form>
-
-        {/* Keyboard Shortcuts */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showKeyboardTips ? 1 : 0 }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/40 text-sm flex items-center gap-2"
-        >
-          <Keyboard className="w-4 h-4" />
-          <span>Press Enter to continue</span>
-        </motion.div>
       </motion.div>
     </div>
   );
 };
 
-export default AgentSetup;
+export default AgentPersonality;
