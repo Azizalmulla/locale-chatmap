@@ -90,20 +90,29 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
 
   const processAudio = async (audioBlob: Blob) => {
     try {
+      console.log('Processing audio...');
       const formData = new FormData();
       formData.append('audio', audioBlob, 'recording.webm');
       formData.append('apiKey', localStorage.getItem('openai_api_key') || '');
       
       const response = await fetch('/functions/v1/voice-chat', {
         method: 'POST',
+        headers: {
+          'x-openai-api-key': localStorage.getItem('openai_api_key') || ''
+        },
         body: formData,
       });
       
+      console.log('Voice chat response status:', response.status);
+      
       if (!response.ok) {
-        throw new Error('Failed to process audio');
+        const errorText = await response.text();
+        console.error('Voice chat error response:', errorText);
+        throw new Error(`Failed to process audio: ${response.status} ${errorText}`);
       }
       
       const data = await response.json();
+      console.log('Voice chat response data:', data);
       
       if (data.success && data.text) {
         setMessage(data.text);
@@ -113,7 +122,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
       }
     } catch (error) {
       console.error('Error processing audio:', error);
-      toast.error('Failed to process audio. Please try again.');
+      toast.error(`Failed to process audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 

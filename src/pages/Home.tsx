@@ -62,9 +62,12 @@ const Home = () => {
       // If no API key is set, show a toast
       if (!localStorage.getItem('openai_api_key')) {
         toast.error('Please set your OpenAI API key first');
+        setIsLoading(false);
         return;
       }
 
+      console.log('Sending message to generate function...');
+      
       // Send the message to the generate function
       const response = await fetch('/functions/v1/generate', {
         method: 'POST',
@@ -78,17 +81,33 @@ const Home = () => {
         }),
       });
 
+      console.log('Response status:', response.status);
+
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`Failed to get response: ${response.status} ${errorText}`);
       }
 
       const data = await response.json();
+      console.log('Response data:', data);
       
       // Add AI response to the chat
-      setMessages(prev => [...prev, { content: data.generatedText, isAI: true }]);
+      if (data.generatedText) {
+        setMessages(prev => [...prev, { content: data.generatedText, isAI: true }]);
+      } else if (data.error) {
+        throw new Error(data.error);
+      } else {
+        throw new Error('No response text received');
+      }
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Failed to get a response. Please try again.');
+      toast.error(`Error: ${error instanceof Error ? error.message : 'Failed to get a response'}`);
+      // Add error message to chat
+      setMessages(prev => [...prev, { 
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Failed to get a response'}. Please try again.`, 
+        isAI: true 
+      }]);
     } finally {
       setIsLoading(false);
     }
