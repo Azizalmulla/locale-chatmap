@@ -8,6 +8,11 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = ({ content, isAI = false, isRetroMode = false }: ChatMessageProps) => {
+  // Don't render anything if content is empty
+  if (!content || content.trim() === '') {
+    return null;
+  }
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
