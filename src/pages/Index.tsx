@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <RetroContext.Provider value={{ isRetroMode, toggleRetroMode }}>
       <SidebarProvider>
-        <div className={`min-h-screen flex w-full bg-background ${isRetroMode ? 'retro-grid bg-black' : ''}`}>
+        <div className={`min-h-screen flex w-full bg-background ${isRetroMode ? 'retro-grid bg-black' : 'bg-black'}`}>
           <AppSidebar />
           <motion.div 
             initial={{ opacity: 0 }}
@@ -47,7 +47,7 @@ const Index = () => {
               {isRetroMode ? (
                 <EyeOff className="w-6 h-6 text-[#D946EF] retro-glow" />
               ) : (
-                <Eye className="w-6 h-6 text-gray-400 hover:text-gray-600" />
+                <Eye className="w-6 h-6 text-gray-400 hover:text-white" />
               )}
             </button>
             <Outlet />
