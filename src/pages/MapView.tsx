@@ -74,19 +74,8 @@ const MapView = () => {
   const { isRetroMode } = useRetroMode();
   const agentPersonality = localStorage.getItem('agentPersonality') || '';
   
-  // Create a simpler welcome message without the chatty greeting
-  let welcomeMessage = "How can I help you explore Kuwait and other locations on the map?";
-  if (agentPersonality === 'funny') {
-    welcomeMessage = "Where would you like to explore today? I can show you around Kuwait or other places on the map.";
-  } else if (agentPersonality === 'chill') {
-    welcomeMessage = "Let me know what places in Kuwait you want to check out and we'll explore together.";
-  } else if (agentPersonality === 'professional') {
-    welcomeMessage = "Welcome to the interactive map interface. I can provide geographical information and assist with location queries throughout Kuwait and beyond.";
-  }
-  
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { content: welcomeMessage, isAI: true }
-  ]);
+  // Initialize with empty messages array - removing the default welcome message
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [coordinates, setCoordinates] = useState<[number, number] | null>([47.9774, 29.3759]);
   const [zoom, setZoom] = useState<number>(9);
   const [isLoading, setIsLoading] = useState(false);
