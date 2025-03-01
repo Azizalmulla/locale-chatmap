@@ -45,7 +45,7 @@ const ChatMessage = ({ content, isAI = false, isRetroMode = false }: ChatMessage
           rounded-lg p-4 
           ${isAI 
             ? 'bg-black/50 text-white' 
-            : 'bg-[#1EAEDB]/10 text-white'
+            : 'bg-white/10 text-white'
           }
         `}>
           <p className="text-sm leading-relaxed">

@@ -37,7 +37,7 @@ const AgentPersonality = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-[#222222]">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -46,11 +46,11 @@ const AgentPersonality = () => {
       >
         <div className="w-32 h-16 mx-auto mb-8">
           <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-            <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="#1EAEDB" strokeWidth="2" fill="none"/>
-            <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="#1EAEDB" strokeWidth="2" fill="none"/>
-            <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="#1EAEDB" strokeWidth="2" fill="none"/>
-            <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="#1EAEDB" strokeWidth="2" fill="none"/>
-            <circle cx="100" cy="50" r="10" stroke="#1EAEDB" strokeWidth="2" fill="none"/>
+            <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="white" strokeWidth="2" fill="none"/>
+            <path d="M20 50 Q100 0 180 50 Q100 100 20 50" stroke="white" strokeWidth="2" fill="none"/>
+            <path d="M30 50 Q100 20 170 50 Q100 80 30 50" stroke="white" strokeWidth="2" fill="none"/>
+            <path d="M40 50 Q100 35 160 50 Q100 65 40 50" stroke="white" strokeWidth="2" fill="none"/>
+            <circle cx="100" cy="50" r="10" stroke="white" strokeWidth="2" fill="none"/>
           </svg>
         </div>
 
@@ -58,7 +58,7 @@ const AgentPersonality = () => {
           <h1 className="text-white text-4xl font-normal lowercase tracking-wide">
             choose personality
           </h1>
-          <p className="text-[#9F9EA1] text-lg font-normal lowercase">
+          <p className="text-[#999] text-lg font-normal lowercase">
             select your kuwait guide's personality style
           </p>
         </div>
@@ -66,16 +66,16 @@ const AgentPersonality = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative group">
             <Select onValueChange={setPersonality} value={personality}>
-              <SelectTrigger className="h-[56px] px-4 bg-[#33353F] border-[#444444] text-lg text-white lowercase font-normal placeholder:text-[#9F9EA1] rounded-xl transition-all duration-300
-                focus:ring-2 focus:ring-[#1EAEDB]/30 focus:bg-[#2D2F3A] hover:bg-[#2D2F3A]">
+              <SelectTrigger className="h-[56px] px-4 bg-[#222] border-[#444] text-lg text-white lowercase font-normal placeholder:text-[#999] rounded-xl transition-all duration-300
+                focus:ring-2 focus:ring-white/30 focus:bg-[#333] hover:bg-[#333]">
                 <SelectValue placeholder="select a personality..." className="lowercase font-normal" />
               </SelectTrigger>
-              <SelectContent className="bg-[#222222]/90 border-[#444444]">
+              <SelectContent className="bg-[#222]/90 border-[#444]">
                 {personalities.map((p) => (
                   <SelectItem 
                     key={p.value} 
                     value={p.value}
-                    className="text-white/90 lowercase font-normal focus:bg-[#1EAEDB]/10 focus:text-white"
+                    className="text-white/90 lowercase font-normal focus:bg-white/10 focus:text-white"
                   >
                     {p.label}
                   </SelectItem>
@@ -89,7 +89,7 @@ const AgentPersonality = () => {
               <TooltipTrigger asChild>
                 <Button 
                   type="submit"
-                  className="w-full h-14 text-lg font-normal lowercase rounded-xl relative overflow-hidden group bg-[#1EAEDB]/10"
+                  className="w-full h-14 text-lg font-normal lowercase rounded-xl relative overflow-hidden group bg-white/10"
                   disabled={!personality}
                 >
                   <motion.span 
@@ -100,7 +100,7 @@ const AgentPersonality = () => {
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </motion.span>
                   <motion.div
-                    className="absolute inset-0 bg-[#1EAEDB]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   />
