@@ -44,7 +44,6 @@ const AgentPersonality = () => {
         exit={{ opacity: 0 }}
         className="w-full max-w-md p-8 relative z-10"
       >
-        {/* Eye Logo */}
         <div className="w-32 h-16 mx-auto mb-8">
           <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M10 50 Q100 -20 190 50 Q100 120 10 50" stroke="white" strokeWidth="2" fill="none"/>
@@ -56,34 +55,27 @@ const AgentPersonality = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <motion.h1 
-            className="text-4xl font-semibold tracking-wide"
-            style={{
-              background: 'linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Choose Personality
-          </motion.h1>
-          <p className="text-white/60 text-lg">
-            Select your Kuwait guide's personality style
+          <h1 className="text-[#f5e7c1] text-4xl font-normal lowercase tracking-wide">
+            choose personality
+          </h1>
+          <p className="text-[#f5e7c1]/60 text-lg font-normal lowercase">
+            select your kuwait guide's personality style
           </p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative group">
             <Select onValueChange={setPersonality} value={personality}>
-              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-white placeholder:text-white/40 rounded-xl transition-all duration-300
+              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10 hover:bg-white/10">
-                <SelectValue placeholder="Select a personality..." />
+                <SelectValue placeholder="select a personality..." className="lowercase" />
               </SelectTrigger>
               <SelectContent className="bg-black/90 border-white/10">
                 {personalities.map((p) => (
                   <SelectItem 
                     key={p.value} 
                     value={p.value}
-                    className="text-white/90 focus:bg-white/10 focus:text-white"
+                    className="text-[#f5e7c1]/90 lowercase font-normal focus:bg-white/10 focus:text-[#f5e7c1]"
                   >
                     {p.label}
                   </SelectItem>
@@ -97,14 +89,14 @@ const AgentPersonality = () => {
               <TooltipTrigger asChild>
                 <Button 
                   type="submit"
-                  className="w-full h-14 text-lg font-medium rounded-xl relative overflow-hidden group bg-white/10"
+                  className="w-full h-14 text-lg font-normal lowercase rounded-xl relative overflow-hidden group bg-white/10"
                   disabled={!personality}
                 >
                   <motion.span 
-                    className="relative z-10 flex items-center gap-2 text-white"
+                    className="relative z-10 flex items-center gap-2 text-[#f5e7c1]"
                     whileHover={{ x: 5 }}
                   >
-                    Continue
+                    continue
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </motion.span>
                   <motion.div
@@ -114,8 +106,8 @@ const AgentPersonality = () => {
                   />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>Choose how your Kuwait guide AI will interact with you</p>
+              <TooltipContent className="lowercase font-normal">
+                <p>choose how your kuwait guide ai will interact with you</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
