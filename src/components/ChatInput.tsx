@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Mic, Send, Square } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -97,49 +96,36 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
         throw new Error('OpenAI API key is not set');
       }
       
-      // Convert audio to base64
-      const reader = new FileReader();
-      reader.readAsDataURL(audioBlob);
+      // Create a FormData object and append the audio file
+      const formData = new FormData();
+      formData.append('file', audioBlob, 'recording.webm');
+      formData.append('model', 'whisper-1');
       
-      reader.onloadend = async () => {
-        try {
-          // Extract the base64 data
-          const base64Audio = (reader.result as string).split(',')[1];
-          
-          // Call OpenAI's audio transcription API
-          const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${openaiApiKey}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              file: base64Audio,
-              model: 'whisper-1',
-              response_format: 'json'
-            })
-          });
-          
-          if (!response.ok) {
-            throw new Error(`OpenAI API error: ${response.status}`);
-          }
-          
-          const data = await response.json();
-          
-          if (data.text) {
-            setMessage(data.text);
-            toast.success('Audio transcribed successfully');
-          } else {
-            throw new Error('No transcription returned');
-          }
-        } catch (error) {
-          console.error('Error processing audio:', error);
-          toast.error(`Failed to transcribe audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
-      };
+      // Call OpenAI's Whisper API directly
+      const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiApiKey}`
+        },
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Whisper API error: ${errorData.error?.message || response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.text) {
+        setMessage(data.text);
+        toast.success('Audio transcribed successfully');
+      } else {
+        throw new Error('No transcription returned');
+      }
     } catch (error) {
       console.error('Error processing audio:', error);
-      toast.error(`Failed to process audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(`Failed to transcribe audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
