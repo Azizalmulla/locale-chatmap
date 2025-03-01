@@ -162,25 +162,25 @@ const MapView = () => {
   };
 
   return (
-    <div className="flex-1 bg-[#343541] flex flex-col">
+    <div className="flex-1 bg-[#1a1a1a] flex h-screen overflow-hidden">
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-row p-0" // Removed padding for minimal spacing
+        className="flex w-full h-full"
       >
-        {/* Map panel - taking 50% width */}
-        <div className={`w-1/2 ${
+        {/* Map panel - taking 60% width */}
+        <div className={`w-3/5 h-full ${
           isRetroMode 
             ? 'ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]' 
-            : 'border-r border-white/10'
+            : ''
         }`}>
           <Map className="w-full h-full" coordinates={coordinates} zoom={zoom} />
         </div>
         
-        {/* Chat panel - taking 50% width */}
-        <div className="w-1/2 flex flex-col">
-          <div className="flex-1 overflow-y-auto bg-black/20 backdrop-blur-sm">
+        {/* Chat panel - taking 40% width */}
+        <div className="w-2/5 h-full flex flex-col bg-[#222222] border-l border-[#333333]">
+          <div className="flex-1 overflow-y-auto scrollbar-none">
             {messages.map((msg, index) => (
               <ChatMessage
                 key={index}
@@ -191,7 +191,7 @@ const MapView = () => {
             ))}
           </div>
 
-          <div className="p-2">
+          <div className="p-4 border-t border-[#333333]">
             <ChatInput 
               onSendMessage={handleSendMessage}
               disabled={isLoading}

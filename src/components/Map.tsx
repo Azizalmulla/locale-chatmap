@@ -70,13 +70,12 @@ const Map: React.FC<MapProps> = ({ className, coordinates, zoom }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`relative w-full h-[40vh] md:h-[50vh] ${className}`}
+      className={`w-full h-full ${className}`}
     >
-      <div ref={mapContainer} className="absolute inset-0 rounded-lg shadow-lg" />
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent to-background/10 rounded-lg" />
+      <div ref={mapContainer} className="absolute inset-0 w-full h-full" />
     </motion.div>
   );
 };
