@@ -4,8 +4,8 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Outlet } from 'react-router-dom';
 import { createContext, useContext, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
+import { CustomEye } from '@/components/CustomEye';
 
 export const RetroContext = createContext<{
   isRetroMode: boolean;
@@ -44,11 +44,10 @@ const Index = () => {
               onClick={toggleRetroMode}
               className="absolute top-4 right-4 z-50 p-2 rounded-full transition-all duration-300 hover:scale-110"
             >
-              {isRetroMode ? (
-                <EyeOff className="w-6 h-6 text-[#D946EF] retro-glow" />
-              ) : (
-                <Eye className="w-6 h-6 text-gray-400 hover:text-white" />
-              )}
+              <CustomEye 
+                isOpen={!isRetroMode} 
+                className={`w-8 h-8 ${isRetroMode ? 'text-[#D946EF] retro-glow' : 'text-white'}`} 
+              />
             </button>
             <Outlet />
             {isRetroMode && <div className="retro-scanline absolute inset-0 pointer-events-none" />}
