@@ -33,8 +33,16 @@ const AgentSetup = () => {
     return () => clearTimeout(timeout);
   }, [agentName]);
 
+  // Show keyboard tips after a delay
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowKeyboardTips(true);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black font-inter">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -53,16 +61,11 @@ const AgentSetup = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <motion.h1 
-            className="text-4xl font-semibold tracking-wide"
-            style={{
-              background: 'linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.8))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
+          <h1 
+            className="text-4xl font-semibold tracking-wide text-white"
           >
             Name Your Agent
-          </motion.h1>
+          </h1>
           <p className="text-white/60 text-lg">
             Begin your journey with a personalized AI agent
           </p>
