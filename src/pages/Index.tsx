@@ -32,13 +32,13 @@ const Index = () => {
   return (
     <RetroContext.Provider value={{ isRetroMode, toggleRetroMode }}>
       <SidebarProvider>
-        <div className={`min-h-screen flex w-full bg-background ${isRetroMode ? 'retro-grid bg-black' : ''}`}>
+        <div className={`h-screen flex w-full bg-background ${isRetroMode ? 'retro-grid bg-black' : ''}`}>
           <AppSidebar />
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex-1 relative"
+            className="flex-1 relative overflow-hidden"
           >
             <button
               onClick={toggleRetroMode}
@@ -50,7 +50,9 @@ const Index = () => {
                 <Eye className="w-6 h-6 text-gray-400 hover:text-gray-600" />
               )}
             </button>
-            <Outlet />
+            <div className="h-full overflow-auto">
+              <Outlet />
+            </div>
             {isRetroMode && <div className="retro-scanline absolute inset-0 pointer-events-none" />}
           </motion.div>
         </div>
