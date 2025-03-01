@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { Mic, Send, Square } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -7,9 +8,10 @@ interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   isRetroMode?: boolean;
+  useFallbackMode?: boolean;
 }
 
-const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: ChatInputProps) => {
+const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFallbackMode = false }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -56,7 +58,14 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
       
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        await processAudio(audioBlob);
+        
+        if (useFallbackMode) {
+          // In fallback mode, we'll just set a simulated message
+          setMessage("I recorded an audio message but transcription is unavailable in offline mode.");
+          toast.info('Voice transcription requires API connectivity.');
+        } else {
+          await processAudio(audioBlob);
+        }
         
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop());
@@ -75,7 +84,9 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      toast.info('Processing audio...');
+      if (!useFallbackMode) {
+        toast.info('Processing audio...');
+      }
     }
   };
 
@@ -161,7 +172,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
               : isRecording
               ? 'bg-red-500/20 text-red-500'
               : 'hover:bg-white/5 text-gray-400'
-          }`}
+          } ${useFallbackMode && !isRecording ? 'opacity-50' : ''}`}
           disabled={disabled}
         >
           {isRecording ? <Square className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
@@ -174,7 +185,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message..."
+          placeholder={useFallbackMode ? "Chat in offline mode (limited responses)" : "Type your message..."}
           className={`flex-1 px-4 py-3 rounded-lg text-sm transition-colors
             ${isRetroMode 
               ? 'bg-black/40 border border-[#0DF5E3]/20 text-[#0DF5E3] retro-text placeholder:text-[#0DF5E3]/50' 
