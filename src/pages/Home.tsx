@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ChatMessage from "@/components/ChatMessage";
@@ -53,6 +52,11 @@ const Home = () => {
     }
   };
 
+  const isJsonResponse = (text: string) => {
+    // Check if the response is likely JSON or HTML
+    return text.trim().startsWith('{') || text.trim().startsWith('[');
+  };
+
   const handleSendMessage = async (message: string) => {
     try {
       setIsLoading(true);
@@ -82,14 +86,22 @@ const Home = () => {
       });
 
       console.log('Response status:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`Failed to get response: ${response.status} ${errorText}`);
+      
+      // Get the response text first to check if it's JSON or HTML
+      const responseText = await response.text();
+      console.log('Response text first 100 chars:', responseText.substring(0, 100));
+      
+      // Check if the response is likely HTML (error page)
+      if (!isJsonResponse(responseText)) {
+        if (responseText.includes('<!DOCTYPE') || responseText.includes('<html>')) {
+          throw new Error('Received HTML instead of JSON. The API endpoint may not be deployed or configured correctly.');
+        } else {
+          throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
+        }
       }
-
-      const data = await response.json();
+      
+      // If we got here, the response should be valid JSON
+      const data = JSON.parse(responseText);
       console.log('Response data:', data);
       
       // Add AI response to the chat

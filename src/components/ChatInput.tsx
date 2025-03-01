@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Mic, Send, Square } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -88,6 +87,10 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
     }
   };
 
+  const isJsonResponse = (text: string) => {
+    return text.trim().startsWith('{') || text.trim().startsWith('[');
+  };
+
   const processAudio = async (audioBlob: Blob) => {
     try {
       console.log('Processing audio...');
@@ -105,13 +108,18 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
       
       console.log('Voice chat response status:', response.status);
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Voice chat error response:', errorText);
-        throw new Error(`Failed to process audio: ${response.status} ${errorText}`);
+      const responseText = await response.text();
+      console.log('Voice chat response text first 100 chars:', responseText.substring(0, 100));
+      
+      if (!isJsonResponse(responseText)) {
+        if (responseText.includes('<!DOCTYPE') || responseText.includes('<html>')) {
+          throw new Error('Received HTML instead of JSON. The API endpoint may not be deployed or configured correctly.');
+        } else {
+          throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
+        }
       }
       
-      const data = await response.json();
+      const data = JSON.parse(responseText);
       console.log('Voice chat response data:', data);
       
       if (data.success && data.text) {
