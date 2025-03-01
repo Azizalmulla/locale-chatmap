@@ -22,16 +22,12 @@ const AgentSetup = () => {
     e.preventDefault();
     if (agentName.trim()) {
       localStorage.setItem('agentName', agentName.trim());
-      navigate('/personality');  // Changed this line to go to personality screen
+      navigate('/personality');
     }
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsTyping(false);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [agentName]);
+  // Intentionally removed the useEffect that changes isTyping state
+  // as it was causing the font flashing issue
 
   // Show keyboard tips after a delay
   useEffect(() => {
@@ -79,7 +75,7 @@ const AgentSetup = () => {
               value={agentName}
               onChange={(e) => {
                 setAgentName(e.target.value);
-                setIsTyping(true);
+                // Removed setIsTyping(true) to prevent font flashing
               }}
               className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-white placeholder:text-white/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10
