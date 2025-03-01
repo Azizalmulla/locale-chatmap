@@ -2,11 +2,12 @@
 import { motion } from 'framer-motion';
 
 interface ChatMessageProps {
+  content: string;
   isAI?: boolean;
   isRetroMode?: boolean;
 }
 
-const ChatMessage = ({ isAI = false, isRetroMode = false }: ChatMessageProps) => {
+const ChatMessage = ({ content, isAI = false, isRetroMode = false }: ChatMessageProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,7 +28,7 @@ const ChatMessage = ({ isAI = false, isRetroMode = false }: ChatMessageProps) =>
           }
         `}>
           <div className={`text-sm leading-relaxed ${isRetroMode ? 'retro-text' : ''}`}>
-            {/* Content removed */}
+            {content}
           </div>
         </div>
       </div>
