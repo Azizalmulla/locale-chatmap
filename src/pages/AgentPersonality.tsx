@@ -66,9 +66,9 @@ const AgentPersonality = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative group">
             <Select onValueChange={setPersonality} value={personality}>
-              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
+              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase font-normal placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10 hover:bg-white/10">
-                <SelectValue placeholder="select a personality..." className="lowercase" />
+                <SelectValue placeholder="select a personality..." className="lowercase font-normal" />
               </SelectTrigger>
               <SelectContent className="bg-black/90 border-white/10">
                 {personalities.map((p) => (

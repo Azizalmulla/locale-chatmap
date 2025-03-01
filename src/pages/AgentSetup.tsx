@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -31,12 +32,12 @@ const AgentSetup = () => {
     }
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
+  // Show keyboard tip after a delay
+  setTimeout(() => {
+    if (!showKeyboardTips) {
       setShowKeyboardTips(true);
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, []);
+    }
+  }, 2000);
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
@@ -73,7 +74,7 @@ const AgentSetup = () => {
               value={agentName}
               onChange={(e) => setAgentName(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
+              className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase font-normal placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10
                 group-hover:bg-white/10"
               autoFocus
