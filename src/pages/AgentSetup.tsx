@@ -11,11 +11,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ArrowRight, Keyboard } from 'lucide-react';
+import { useRetroMode } from './Index';
 
 const AgentSetup = () => {
   const [agentName, setAgentName] = useState('');
   const [showKeyboardTips, setShowKeyboardTips] = useState(false);
   const navigate = useNavigate();
+  const { isRetroMode } = useRetroMode();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +40,42 @@ const AgentSetup = () => {
     }, 2000);
     return () => clearTimeout(timeout);
   }, []);
+
+  if (isRetroMode) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-start justify-center p-8 bg-black">
+        <div className="max-w-md">
+          <h1 className="text-3xl mb-4 retro-text">name your agent</h1>
+          <p className="mb-6 retro-text opacity-80">begin your journey with a personalized ai agent</p>
+          
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="name your agent..."
+              value={agentName}
+              onChange={(e) => setAgentName(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="w-full p-2 mb-4 bg-black border-2 retro-border retro-text"
+              autoFocus
+            />
+          </div>
+
+          <button 
+            onClick={handleSubmit}
+            className="retro-text retro-border p-2 flex items-center gap-2"
+            disabled={!agentName.trim()}
+          >
+            meet your agent →
+          </button>
+
+          <div className="mt-8 retro-text opacity-70 flex items-center gap-2">
+            <span className="border retro-border px-2">ENTER</span>
+            <span>press enter to continue</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">

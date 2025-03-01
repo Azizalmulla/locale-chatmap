@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { Outlet } from 'react-router-dom';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -19,6 +19,11 @@ export const useRetroMode = () => useContext(RetroContext);
 
 const Index = () => {
   const [isRetroMode, setIsRetroMode] = useState(false);
+
+  // Reset retro mode to false on component mount
+  useEffect(() => {
+    setIsRetroMode(false);
+  }, []);
 
   const toggleRetroMode = () => {
     setIsRetroMode(!isRetroMode);
@@ -43,9 +48,10 @@ const Index = () => {
             <button
               onClick={toggleRetroMode}
               className="absolute top-4 right-4 z-50 p-2 rounded-full transition-all duration-300 hover:scale-110"
+              title={isRetroMode ? "Switch to Modern Mode" : "Switch to Retro Mode"}
             >
               {isRetroMode ? (
-                <EyeOff className="w-6 h-6 text-[#D946EF] retro-glow" />
+                <EyeOff className="w-6 h-6 text-[#0DF5E3] retro-glow" />
               ) : (
                 <Eye className="w-6 h-6 text-gray-400 hover:text-white" />
               )}
