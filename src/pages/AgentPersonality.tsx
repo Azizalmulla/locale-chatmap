@@ -55,10 +55,10 @@ const AgentPersonality = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <h1 className="text-white text-4xl font-normal lowercase tracking-wide">
+          <h1 className="text-[#f5e7c1] text-4xl font-normal lowercase tracking-wide">
             choose personality
           </h1>
-          <p className="text-[#999] text-lg font-normal lowercase">
+          <p className="text-[#f5e7c1]/60 text-lg font-normal lowercase">
             select your kuwait guide's personality style
           </p>
         </div>
@@ -66,16 +66,16 @@ const AgentPersonality = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative group">
             <Select onValueChange={setPersonality} value={personality}>
-              <SelectTrigger className="h-[56px] px-4 bg-[#222] border-[#444] text-lg text-white lowercase font-normal placeholder:text-[#999] rounded-xl transition-all duration-300
-                focus:ring-2 focus:ring-white/30 focus:bg-[#333] hover:bg-[#333]">
+              <SelectTrigger className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase font-normal placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
+                focus:ring-2 focus:ring-white/20 focus:bg-white/10 hover:bg-white/10">
                 <SelectValue placeholder="select a personality..." className="lowercase font-normal" />
               </SelectTrigger>
-              <SelectContent className="bg-[#222]/90 border-[#444]">
+              <SelectContent className="bg-black/90 border-white/10">
                 {personalities.map((p) => (
                   <SelectItem 
                     key={p.value} 
                     value={p.value}
-                    className="text-white/90 lowercase font-normal focus:bg-white/10 focus:text-white"
+                    className="text-[#f5e7c1]/90 lowercase font-normal focus:bg-white/10 focus:text-[#f5e7c1]"
                   >
                     {p.label}
                   </SelectItem>
@@ -93,14 +93,14 @@ const AgentPersonality = () => {
                   disabled={!personality}
                 >
                   <motion.span 
-                    className="relative z-10 flex items-center gap-2 text-white"
+                    className="relative z-10 flex items-center gap-2 text-[#f5e7c1]"
                     whileHover={{ x: 5 }}
                   >
                     continue
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </motion.span>
                   <motion.div
-                    className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   />

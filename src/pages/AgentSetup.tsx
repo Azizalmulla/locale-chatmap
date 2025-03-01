@@ -11,13 +11,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ArrowRight, Keyboard } from 'lucide-react';
-import { useRetroMode } from './Index';
 
 const AgentSetup = () => {
   const [agentName, setAgentName] = useState('');
   const [showKeyboardTips, setShowKeyboardTips] = useState(false);
   const navigate = useNavigate();
-  const { isRetroMode } = useRetroMode();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,42 +39,6 @@ const AgentSetup = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  if (isRetroMode) {
-    return (
-      <div className="min-h-screen w-full flex flex-col items-start justify-center p-8 bg-black">
-        <div className="max-w-md">
-          <h1 className="text-3xl mb-4 retro-text">name your agent</h1>
-          <p className="mb-6 retro-text opacity-80">begin your journey with a personalized ai agent</p>
-          
-          <div className="mb-6">
-            <input
-              type="text"
-              placeholder="name your agent..."
-              value={agentName}
-              onChange={(e) => setAgentName(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="w-full p-2 mb-4 bg-black border-2 retro-border retro-text"
-              autoFocus
-            />
-          </div>
-
-          <button 
-            onClick={handleSubmit}
-            className="retro-text retro-border p-2 flex items-center gap-2"
-            disabled={!agentName.trim()}
-          >
-            meet your agent →
-          </button>
-
-          <div className="mt-8 retro-text opacity-70 flex items-center gap-2">
-            <span className="border retro-border px-2">ENTER</span>
-            <span>press enter to continue</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
       <motion.div
@@ -96,10 +58,10 @@ const AgentSetup = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <h1 className="text-white text-4xl font-normal lowercase tracking-wide">
+          <h1 className="text-[#f5e7c1] text-4xl font-normal lowercase tracking-wide">
             name your agent
           </h1>
-          <p className="text-[#999] text-lg font-normal lowercase">
+          <p className="text-[#f5e7c1]/60 text-lg font-normal lowercase">
             begin your journey with a personalized ai agent
           </p>
         </div>
@@ -112,9 +74,9 @@ const AgentSetup = () => {
               value={agentName}
               onChange={(e) => setAgentName(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="h-[56px] px-4 bg-[#222] border-[#444] text-lg text-white lowercase font-normal placeholder:text-[#999] rounded-xl transition-all duration-300
-                focus:ring-2 focus:ring-white/30 focus:bg-[#333]
-                group-hover:bg-[#333]"
+              className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase font-normal placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
+                focus:ring-2 focus:ring-white/20 focus:bg-white/10
+                group-hover:bg-white/10"
               autoFocus
             />
           </div>
@@ -128,14 +90,14 @@ const AgentSetup = () => {
                   disabled={!agentName.trim()}
                 >
                   <motion.span 
-                    className="relative z-10 flex items-center gap-2 text-white"
+                    className="relative z-10 flex items-center gap-2 text-[#f5e7c1]"
                     whileHover={{ x: 5 }}
                   >
                     meet your agent
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </motion.span>
                   <motion.div
-                    className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   />
@@ -151,7 +113,7 @@ const AgentSetup = () => {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: showKeyboardTips ? 1 : 0 }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#999] text-sm flex items-center gap-2 lowercase font-normal"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#f5e7c1]/40 text-sm flex items-center gap-2 lowercase font-normal"
         >
           <Keyboard className="w-4 h-4" />
           <span>press enter to continue</span>

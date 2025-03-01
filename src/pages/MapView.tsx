@@ -178,31 +178,35 @@ const MapView = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 flex flex-row"
+        className="flex-1 flex flex-row p-0" // Removed padding for minimal spacing
       >
-        {/* Map panel - dark navy blue background */}
-        <div className="w-1/2 bg-[#2D2F3A]">
+        {/* Map panel - taking 50% width */}
+        <div className={`w-1/2 ${
+          isRetroMode 
+            ? 'ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]' 
+            : 'border-r border-white/10'
+        }`}>
           <Map className="w-full h-full" coordinates={coordinates} zoom={zoom} />
         </div>
         
-        {/* Chat panel - dark gray background */}
-        <div className="w-1/2 flex flex-col bg-[#33353F]">
-          <div className="flex-1 overflow-y-auto">
+        {/* Chat panel - taking 50% width */}
+        <div className="w-1/2 flex flex-col">
+          <div className="flex-1 overflow-y-auto bg-black/20 backdrop-blur-sm">
             {messages.map((msg, index) => (
               <ChatMessage
                 key={index}
                 content={msg.content}
                 isAI={msg.isAI}
-                isRetroMode={false}
+                isRetroMode={isRetroMode}
               />
             ))}
           </div>
 
-          <div className="p-2 bg-[#33353F] border-t border-[#4D4F61]">
+          <div className="p-2">
             <ChatInput 
               onSendMessage={handleSendMessage}
               disabled={isLoading}
-              isRetroMode={false}
+              isRetroMode={isRetroMode}
             />
           </div>
         </div>
