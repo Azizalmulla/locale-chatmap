@@ -18,7 +18,7 @@ const Map: React.FC<MapProps> = ({ className, coordinates, zoom }) => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJjbGxxZ3ljemowMHd3MmpxcjRxc2xtZm1sIn0.qHQqRNvuGwn_2CsGh0CCQQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXppemFsbXVsbGEiLCJhIjoiY203cHN0cDZkMDcyZzJqc2J2bWpoY2FocCJ9.w3V37uLN8-_q19JDcc1oug';
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
