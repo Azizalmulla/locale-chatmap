@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from "@/components/ui/input";
@@ -32,12 +32,12 @@ const AgentSetup = () => {
     }
   };
 
-  // Show keyboard tip after a delay
-  setTimeout(() => {
-    if (!showKeyboardTips) {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
       setShowKeyboardTips(true);
-    }
-  }, 2000);
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
