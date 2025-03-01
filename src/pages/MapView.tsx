@@ -178,9 +178,10 @@ const MapView = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 p-4 flex flex-col gap-4"
+        className="flex-1 p-4 flex flex-row gap-4" // Changed from flex-col to flex-row
       >
-        <div className={`flex-1 rounded-lg overflow-hidden ${
+        {/* Map container - taking 65% width */}
+        <div className={`w-[65%] rounded-lg overflow-hidden ${
           isRetroMode 
             ? 'ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]' 
             : 'ring-1 ring-white/10'
@@ -188,23 +189,26 @@ const MapView = () => {
           <Map className="w-full h-full" coordinates={coordinates} zoom={zoom} />
         </div>
         
-        <div className="h-[300px] overflow-y-auto rounded-lg bg-black/20 backdrop-blur-xl">
-          {messages.map((msg, index) => (
-            <ChatMessage
-              key={index}
-              content={msg.content}
-              isAI={msg.isAI}
+        {/* Chat container - taking 35% width */}
+        <div className="w-[35%] flex flex-col gap-4">
+          <div className="flex-1 overflow-y-auto rounded-lg bg-black/20 backdrop-blur-xl">
+            {messages.map((msg, index) => (
+              <ChatMessage
+                key={index}
+                content={msg.content}
+                isAI={msg.isAI}
+                isRetroMode={isRetroMode}
+              />
+            ))}
+          </div>
+
+          <div className="w-full">
+            <ChatInput 
+              onSendMessage={handleSendMessage}
+              disabled={isLoading}
               isRetroMode={isRetroMode}
             />
-          ))}
-        </div>
-
-        <div className="w-full">
-          <ChatInput 
-            onSendMessage={handleSendMessage}
-            disabled={isLoading}
-            isRetroMode={isRetroMode}
-          />
+          </div>
         </div>
       </motion.div>
     </div>
@@ -212,4 +216,3 @@ const MapView = () => {
 };
 
 export default MapView;
-
