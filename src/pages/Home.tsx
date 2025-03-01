@@ -14,6 +14,19 @@ interface Message {
   isAI: boolean;
 }
 
+const getPersonalityPrompt = (personality: string): string => {
+  switch (personality) {
+    case 'funny':
+      return 'You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining.';
+    case 'chill':
+      return 'You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe.';
+    case 'professional':
+      return 'You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language.';
+    default:
+      return 'You are a helpful AI assistant focused on providing information and answering questions.';
+  }
+};
+
 const Home = () => {
   const { isRetroMode } = useRetroMode();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -21,6 +34,7 @@ const Home = () => {
   const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
   const [isApiKeySet, setIsApiKeySet] = useState(!!localStorage.getItem('openai_api_key'));
   const agentName = localStorage.getItem('agentName') || 'Agent';
+  const agentPersonality = localStorage.getItem('agentPersonality') || '';
 
   useEffect(() => {
     // Set the API key if it's provided but not already in localStorage
@@ -29,9 +43,19 @@ const Home = () => {
       setIsApiKeySet(true);
     }
 
+    // Create personality-specific welcome message
+    let welcomeMessage = `${agentName} here, how can I help you today?`;
+    if (agentPersonality === 'funny') {
+      welcomeMessage = `Hey there! ${agentName} at your service! Ready to chat, laugh, and maybe share a joke or two? What's on your mind today?`;
+    } else if (agentPersonality === 'chill') {
+      welcomeMessage = `Hey, ${agentName} here. What's up? Just hanging out and ready to chat whenever you are.`;
+    } else if (agentPersonality === 'professional') {
+      welcomeMessage = `Good day. I am ${agentName}, your professional assistant. How may I be of service to you today?`;
+    }
+
     // Add welcome message on component mount
     setMessages([
-      { content: `${agentName} here, how can I help you today?`, isAI: true }
+      { content: welcomeMessage, isAI: true }
     ]);
     
     if (isRetroMode) {
@@ -40,7 +64,7 @@ const Home = () => {
         { content: "🕹️ Retro Mode activated! Play some Pong while we chat! Use your mouse to control the paddle.", isAI: true }
       ]);
     }
-  }, [isRetroMode, agentName, apiKey]);
+  }, [isRetroMode, agentName, apiKey, agentPersonality]);
 
   const handleApiKeySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +79,7 @@ const Home = () => {
 
   const callOpenAI = async (message: string) => {
     const openaiApiKey = localStorage.getItem('openai_api_key');
+    const personalityPrompt = getPersonalityPrompt(agentPersonality);
     
     if (!openaiApiKey) {
       throw new Error('OpenAI API key is not set');
@@ -71,7 +96,7 @@ const Home = () => {
         messages: [
           { 
             role: 'system', 
-            content: `You are ${agentName}, a helpful AI assistant focused on providing information about local areas, giving recommendations, and answering questions.` 
+            content: `You are ${agentName}, a helpful AI assistant focused on providing information about local areas, giving recommendations, and answering questions. ${personalityPrompt}` 
           },
           { role: 'user', content: message }
         ],

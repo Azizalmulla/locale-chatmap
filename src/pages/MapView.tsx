@@ -45,10 +45,35 @@ const extractLocation = (message: string): { location: string, coordinates: [num
   return { location: '', coordinates: null, zoom: 1.5 };
 };
 
+const getPersonalityPrompt = (personality: string): string => {
+  switch (personality) {
+    case 'funny':
+      return 'You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining.';
+    case 'chill':
+      return 'You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe.';
+    case 'professional':
+      return 'You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language.';
+    default:
+      return 'You are a helpful AI assistant focused on providing information and answering questions.';
+  }
+};
+
 const MapView = () => {
   const { isRetroMode } = useRetroMode();
+  const agentPersonality = localStorage.getItem('agentPersonality') || '';
+  
+  // Create personality-specific welcome message
+  let welcomeMessage = "Hello! I can help you explore locations on the map. Try asking about a specific place!";
+  if (agentPersonality === 'funny') {
+    welcomeMessage = "Hey there, geography fan! Ready to explore the world together? Just name a place and I'll take you there—no passport required! What city shall we virtually visit today?";
+  } else if (agentPersonality === 'chill') {
+    welcomeMessage = "Hey, welcome to the map. Just let me know what places you want to check out and we'll cruise around together.";
+  } else if (agentPersonality === 'professional') {
+    welcomeMessage = "Welcome to the interactive map interface. I can provide geographical information and assist with location queries. Please specify a city or region you would like to explore.";
+  }
+  
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { content: "Hello! I can help you explore locations on the map. Try asking about a specific place!", isAI: true }
+    { content: welcomeMessage, isAI: true }
   ]);
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
   const [zoom, setZoom] = useState<number>(1.5);
@@ -56,6 +81,7 @@ const MapView = () => {
 
   const callOpenAI = async (message: string) => {
     const openaiApiKey = localStorage.getItem('openai_api_key');
+    const personalityPrompt = getPersonalityPrompt(agentPersonality);
     
     if (!openaiApiKey) {
       throw new Error('OpenAI API key is not set');
@@ -81,7 +107,7 @@ const MapView = () => {
         messages: [
           { 
             role: 'system', 
-            content: 'You are a helpful assistant with expertise in geography and local knowledge. Provide concise information about locations, landmarks, and places of interest. Keep responses brief and informative.' 
+            content: `You are a helpful assistant with expertise in geography and local knowledge. Provide concise information about locations, landmarks, and places of interest. Keep responses brief and informative. ${personalityPrompt}` 
           },
           { role: 'user', content: prompt }
         ],
