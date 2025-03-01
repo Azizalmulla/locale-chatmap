@@ -18,19 +18,13 @@ const menuItems = [
     title: "Guide",
     url: "/app",
     icon: BookOpen,
-    description: "Your Agent"
+    description: "Interactive Guide"
   },
   {
-    title: "Explore",
-    url: "/app/map",
-    icon: Map,
-    description: "Interactive map"
-  },
-  {
-    title: "Trending",
+    title: "Cool Stuff To Do",
     url: "/app/trending",
     icon: TrendingUp,
-    description: "Cool stuff to do"
+    description: "Trending activities"
   }
 ];
 

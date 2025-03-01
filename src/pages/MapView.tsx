@@ -74,14 +74,14 @@ const MapView = () => {
   const { isRetroMode } = useRetroMode();
   const agentPersonality = localStorage.getItem('agentPersonality') || '';
   
-  // Create personality-specific welcome message with Kuwait focus
-  let welcomeMessage = "Marhaba! I can help you explore Kuwait and other locations on the map. Where would you like to visit today?";
+  // Create a simpler welcome message without the chatty greeting
+  let welcomeMessage = "How can I help you explore Kuwait and other locations on the map?";
   if (agentPersonality === 'funny') {
-    welcomeMessage = "Shlonik! Ready for a virtual tour around Kuwait? Just tell me where you want to go and I'll take you there—no traffic jams guaranteed! Shaku maku, where shall we explore today?";
+    welcomeMessage = "Where would you like to explore today? I can show you around Kuwait or other places on the map.";
   } else if (agentPersonality === 'chill') {
-    welcomeMessage = "Hala, welcome to the map. Just let me know what places in Kuwait you want to check out and we'll cruise around together. Shaku maku?";
+    welcomeMessage = "Let me know what places in Kuwait you want to check out and we'll explore together.";
   } else if (agentPersonality === 'professional') {
-    welcomeMessage = "Marhaba bik. Welcome to the interactive Kuwait map interface. I can provide geographical information and assist with location queries throughout Kuwait and beyond. Please specify a location you would like to explore.";
+    welcomeMessage = "Welcome to the interactive map interface. I can provide geographical information and assist with location queries throughout Kuwait and beyond.";
   }
   
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -178,20 +178,20 @@ const MapView = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex-1 p-4 flex flex-row gap-4" // Changed from flex-col to flex-row
+        className="flex-1 flex flex-row p-0" // Removed padding for minimal spacing
       >
-        {/* Map container - taking 65% width */}
-        <div className={`w-[65%] rounded-lg overflow-hidden ${
+        {/* Map panel - taking 50% width */}
+        <div className={`w-1/2 ${
           isRetroMode 
             ? 'ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]' 
-            : 'ring-1 ring-white/10'
+            : 'border-r border-white/10'
         }`}>
           <Map className="w-full h-full" coordinates={coordinates} zoom={zoom} />
         </div>
         
-        {/* Chat container - taking 35% width */}
-        <div className="w-[35%] flex flex-col gap-4">
-          <div className="flex-1 overflow-y-auto rounded-lg bg-black/20 backdrop-blur-xl">
+        {/* Chat panel - taking 50% width */}
+        <div className="w-1/2 flex flex-col">
+          <div className="flex-1 overflow-y-auto bg-black/20 backdrop-blur-sm">
             {messages.map((msg, index) => (
               <ChatMessage
                 key={index}
@@ -202,7 +202,7 @@ const MapView = () => {
             ))}
           </div>
 
-          <div className="w-full">
+          <div className="p-2">
             <ChatInput 
               onSendMessage={handleSendMessage}
               disabled={isLoading}
