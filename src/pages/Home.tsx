@@ -18,11 +18,17 @@ const Home = () => {
   const { isRetroMode } = useRetroMode();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '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');
   const [isApiKeySet, setIsApiKeySet] = useState(!!localStorage.getItem('openai_api_key'));
   const agentName = localStorage.getItem('agentName') || 'Agent';
 
   useEffect(() => {
+    // Set the API key if it's provided but not already in localStorage
+    if (apiKey && !localStorage.getItem('openai_api_key')) {
+      localStorage.setItem('openai_api_key', apiKey);
+      setIsApiKeySet(true);
+    }
+
     // Add welcome message on component mount
     setMessages([
       { content: `${agentName} here, how can I help you today?`, isAI: true }
@@ -34,7 +40,7 @@ const Home = () => {
         { content: "🕹️ Retro Mode activated! Play some Pong while we chat! Use your mouse to control the paddle.", isAI: true }
       ]);
     }
-  }, [isRetroMode, agentName]);
+  }, [isRetroMode, agentName, apiKey]);
 
   const handleApiKeySubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -2,11 +2,9 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-openai-api-key',
 };
 
 serve(async (req) => {
@@ -18,9 +16,18 @@ serve(async (req) => {
     // Get the audio data from the request
     const formData = await req.formData();
     const audioFile = formData.get('audio');
+    const apiKey = formData.get('apiKey');
     
     if (!audioFile || !(audioFile instanceof File)) {
       throw new Error('No audio file provided');
+    }
+
+    const openAIApiKey = apiKey || Deno.env.get('OPENAI_API_KEY');
+    const apiKeyFromHeader = req.headers.get('x-openai-api-key');
+    const finalApiKey = openAIApiKey || apiKeyFromHeader;
+
+    if (!finalApiKey) {
+      throw new Error('No API key provided');
     }
 
     // Create a form data object to send to the OpenAI API
@@ -32,7 +39,7 @@ serve(async (req) => {
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
+        'Authorization': `Bearer ${finalApiKey}`,
       },
       body: whisperFormData,
     });

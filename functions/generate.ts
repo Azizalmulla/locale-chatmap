@@ -2,11 +2,9 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-openai-api-key',
 };
 
 serve(async (req) => {
@@ -15,12 +13,21 @@ serve(async (req) => {
   }
 
   try {
-    const { prompt } = await req.json();
+    const { prompt, apiKey } = await req.json();
+    const openAIApiKey = apiKey || Deno.env.get('OPENAI_API_KEY');
+    
+    // Get API key from headers if not in the request body
+    const apiKeyFromHeader = req.headers.get('x-openai-api-key');
+    const finalApiKey = openAIApiKey || apiKeyFromHeader;
+
+    if (!finalApiKey) {
+      throw new Error('No API key provided');
+    }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
+        'Authorization': `Bearer ${finalApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
