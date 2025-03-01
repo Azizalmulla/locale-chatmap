@@ -92,6 +92,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: Cha
     try {
       const formData = new FormData();
       formData.append('audio', audioBlob, 'recording.webm');
+      formData.append('apiKey', localStorage.getItem('openai_api_key') || '');
       
       const response = await fetch('/functions/v1/voice-chat', {
         method: 'POST',

@@ -6,6 +6,8 @@ import ChatInput from "@/components/ChatInput";
 import { useRetroMode } from "./Index";
 import PongGame from "@/components/PongGame";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface Message {
   content: string;
@@ -16,6 +18,8 @@ const Home = () => {
   const { isRetroMode } = useRetroMode();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+  const [isApiKeySet, setIsApiKeySet] = useState(!!localStorage.getItem('openai_api_key'));
   const agentName = localStorage.getItem('agentName') || 'Agent';
 
   useEffect(() => {
@@ -32,17 +36,40 @@ const Home = () => {
     }
   }, [isRetroMode, agentName]);
 
+  const handleApiKeySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (apiKey.trim()) {
+      localStorage.setItem('openai_api_key', apiKey.trim());
+      setIsApiKeySet(true);
+      toast.success('API key saved successfully!');
+    } else {
+      toast.error('Please enter a valid API key');
+    }
+  };
+
   const handleSendMessage = async (message: string) => {
     try {
       setIsLoading(true);
       // Add user message to the chat
       setMessages(prev => [...prev, { content: message, isAI: false }]);
 
+      // If no API key is set, show a toast
+      if (!localStorage.getItem('openai_api_key')) {
+        toast.error('Please set your OpenAI API key first');
+        return;
+      }
+
       // Send the message to the generate function
       const response = await fetch('/functions/v1/generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: message }),
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-openai-api-key': localStorage.getItem('openai_api_key') || ''
+        },
+        body: JSON.stringify({ 
+          prompt: message,
+          apiKey: localStorage.getItem('openai_api_key')
+        }),
       });
 
       if (!response.ok) {
@@ -64,6 +91,30 @@ const Home = () => {
   return (
     <div className={`flex flex-col h-full relative ${isRetroMode ? 'retro-grid' : ''}`}>
       {isRetroMode && <div className="retro-scanline absolute inset-0 pointer-events-none" />}
+      
+      {!isApiKeySet && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-4 mb-4 bg-black/30 backdrop-blur-md rounded-lg mx-auto max-w-md mt-4"
+        >
+          <h3 className="text-lg font-semibold mb-2">Set Your OpenAI API Key</h3>
+          <p className="text-sm text-gray-400 mb-4">This is required for chat and voice functionality to work.</p>
+          <form onSubmit={handleApiKeySubmit} className="flex flex-col gap-2">
+            <Input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder="sk-..."
+              className="bg-black/40 border-gray-700"
+            />
+            <Button type="submit" className={isRetroMode ? 'bg-[#0DF5E3] text-black' : ''}>
+              Save API Key
+            </Button>
+          </form>
+        </motion.div>
+      )}
+      
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -90,7 +141,7 @@ const Home = () => {
           <ChatInput 
             onSendMessage={handleSendMessage} 
             isRetroMode={isRetroMode}
-            disabled={isLoading}
+            disabled={isLoading || !isApiKeySet}
           />
         </div>
       </div>
