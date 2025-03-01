@@ -58,10 +58,10 @@ const AgentSetup = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <h1 className="text-[#f5e7c1] text-4xl font-normal lowercase tracking-wide">
+          <h1 className="text-[#f5e7c1] text-4xl font-normal lowercase tracking-wide antialiased">
             name your agent
           </h1>
-          <p className="text-[#f5e7c1]/60 text-lg font-normal lowercase">
+          <p className="text-[#f5e7c1]/60 text-lg font-normal lowercase antialiased">
             begin your journey with a personalized ai agent
           </p>
         </div>
@@ -76,7 +76,7 @@ const AgentSetup = () => {
               onKeyDown={handleKeyDown}
               className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-[#f5e7c1] lowercase font-normal placeholder:text-[#f5e7c1]/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10
-                group-hover:bg-white/10"
+                group-hover:bg-white/10 antialiased"
               autoFocus
             />
           </div>
@@ -90,7 +90,7 @@ const AgentSetup = () => {
                   disabled={!agentName.trim()}
                 >
                   <motion.span 
-                    className="relative z-10 flex items-center gap-2 text-[#f5e7c1]"
+                    className="relative z-10 flex items-center gap-2 text-[#f5e7c1] antialiased"
                     whileHover={{ x: 5 }}
                   >
                     meet your agent
@@ -103,7 +103,7 @@ const AgentSetup = () => {
                   />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent className="lowercase font-normal">
+              <TooltipContent className="lowercase font-normal antialiased">
                 <p>give your ai a unique identity for a more personal experience</p>
               </TooltipContent>
             </Tooltip>
@@ -113,7 +113,7 @@ const AgentSetup = () => {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: showKeyboardTips ? 1 : 0 }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#f5e7c1]/40 text-sm flex items-center gap-2 lowercase font-normal"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#f5e7c1]/40 text-sm flex items-center gap-2 lowercase font-normal antialiased"
         >
           <Keyboard className="w-4 h-4" />
           <span>press enter to continue</span>

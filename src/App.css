@@ -44,3 +44,11 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Improved text rendering */
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
