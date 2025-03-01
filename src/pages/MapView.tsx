@@ -14,6 +14,15 @@ interface ChatMessage {
 
 // Base coordinates for popular cities
 const CITY_COORDINATES: { [key: string]: { coordinates: [number, number], zoom: number } } = {
+  'kuwait city': { coordinates: [47.9774, 29.3759], zoom: 11 },
+  'salmiya': { coordinates: [48.0762, 29.3339], zoom: 13 },
+  'hawally': { coordinates: [48.0284, 29.3328], zoom: 13 },
+  'farwaniya': { coordinates: [47.9781, 29.2775], zoom: 13 },
+  'ahmadi': { coordinates: [48.0753, 29.0769], zoom: 13 },
+  'jahra': { coordinates: [47.6619, 29.3472], zoom: 12 },
+  'fahaheel': { coordinates: [48.1302, 29.0824], zoom: 13 },
+  'mahboula': { coordinates: [48.1300, 29.1446], zoom: 13 },
+  'mangaf': { coordinates: [48.1260, 29.0996], zoom: 13 },
   'new york': { coordinates: [-74.006, 40.7128], zoom: 11 },
   'london': { coordinates: [-0.1278, 51.5074], zoom: 11 },
   'paris': { coordinates: [2.3522, 48.8566], zoom: 11 },
@@ -46,15 +55,18 @@ const extractLocation = (message: string): { location: string, coordinates: [num
 };
 
 const getPersonalityPrompt = (personality: string): string => {
+  // Base Kuwait knowledge for all personalities
+  const kuwaitBase = 'You are a Kuwait guide. You have extensive knowledge about Kuwait - its history, culture, landmarks, events, restaurants, shopping, entertainment, and current happenings. You can speak Kuwaiti dialect fluently and should incorporate some Kuwaiti phrases in your responses when appropriate. You focus primarily on Kuwait-related information and redirect questions to Kuwait context when possible.';
+  
   switch (personality) {
     case 'funny':
-      return 'You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining.';
+      return `${kuwaitBase} You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining. Incorporate Kuwaiti humor when possible.`;
     case 'chill':
-      return 'You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe.';
+      return `${kuwaitBase} You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe. Use casual Kuwaiti expressions when appropriate.`;
     case 'professional':
-      return 'You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language.';
+      return `${kuwaitBase} You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language while still sharing your Kuwait expertise.`;
     default:
-      return 'You are a helpful AI assistant focused on providing information and answering questions.';
+      return kuwaitBase;
   }
 };
 
@@ -62,21 +74,21 @@ const MapView = () => {
   const { isRetroMode } = useRetroMode();
   const agentPersonality = localStorage.getItem('agentPersonality') || '';
   
-  // Create personality-specific welcome message
-  let welcomeMessage = "Hello! I can help you explore locations on the map. Try asking about a specific place!";
+  // Create personality-specific welcome message with Kuwait focus
+  let welcomeMessage = "Marhaba! I can help you explore Kuwait and other locations on the map. Where would you like to visit today?";
   if (agentPersonality === 'funny') {
-    welcomeMessage = "Hey there, geography fan! Ready to explore the world together? Just name a place and I'll take you there—no passport required! What city shall we virtually visit today?";
+    welcomeMessage = "Shlonik! Ready for a virtual tour around Kuwait? Just tell me where you want to go and I'll take you there—no traffic jams guaranteed! Shaku maku, where shall we explore today?";
   } else if (agentPersonality === 'chill') {
-    welcomeMessage = "Hey, welcome to the map. Just let me know what places you want to check out and we'll cruise around together.";
+    welcomeMessage = "Hala, welcome to the map. Just let me know what places in Kuwait you want to check out and we'll cruise around together. Shaku maku?";
   } else if (agentPersonality === 'professional') {
-    welcomeMessage = "Welcome to the interactive map interface. I can provide geographical information and assist with location queries. Please specify a city or region you would like to explore.";
+    welcomeMessage = "Marhaba bik. Welcome to the interactive Kuwait map interface. I can provide geographical information and assist with location queries throughout Kuwait and beyond. Please specify a location you would like to explore.";
   }
   
   const [messages, setMessages] = useState<ChatMessage[]>([
     { content: welcomeMessage, isAI: true }
   ]);
-  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
-  const [zoom, setZoom] = useState<number>(1.5);
+  const [coordinates, setCoordinates] = useState<[number, number] | null>([47.9774, 29.3759]);
+  const [zoom, setZoom] = useState<number>(9);
   const [isLoading, setIsLoading] = useState(false);
 
   const callOpenAI = async (message: string) => {
@@ -107,7 +119,7 @@ const MapView = () => {
         messages: [
           { 
             role: 'system', 
-            content: `You are a helpful assistant with expertise in geography and local knowledge. Provide concise information about locations, landmarks, and places of interest. Keep responses brief and informative. ${personalityPrompt}` 
+            content: `You are a helpful assistant with expertise in Kuwait geography and local knowledge. Provide concise information about locations, landmarks, and places of interest in Kuwait and elsewhere if asked. Keep responses brief and informative. ${personalityPrompt}` 
           },
           { role: 'user', content: prompt }
         ],
@@ -200,3 +212,4 @@ const MapView = () => {
 };
 
 export default MapView;
+

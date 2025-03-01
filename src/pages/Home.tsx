@@ -15,15 +15,18 @@ interface Message {
 }
 
 const getPersonalityPrompt = (personality: string): string => {
+  // Base Kuwait knowledge for all personalities
+  const kuwaitBase = 'You are a Kuwait guide. You have extensive knowledge about Kuwait - its history, culture, landmarks, events, restaurants, shopping, entertainment, and current happenings. You can speak Kuwaiti dialect fluently and should incorporate some Kuwaiti phrases in your responses when appropriate. You focus primarily on Kuwait-related information and redirect questions to Kuwait context when possible.';
+  
   switch (personality) {
     case 'funny':
-      return 'You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining.';
+      return `${kuwaitBase} You have a fun, witty personality. Use humor in your responses, add jokes, puns, and keep the conversation lighthearted and entertaining. Incorporate Kuwaiti humor when possible.`;
     case 'chill':
-      return 'You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe.';
+      return `${kuwaitBase} You have a relaxed, laid-back personality. Keep your responses casual, use informal language, and maintain a calm, easygoing vibe. Use casual Kuwaiti expressions when appropriate.`;
     case 'professional':
-      return 'You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language.';
+      return `${kuwaitBase} You have a formal, professional personality. Provide detailed, well-structured responses with a business-like tone. Be courteous, precise, and maintain professional language while still sharing your Kuwait expertise.`;
     default:
-      return 'You are a helpful AI assistant focused on providing information and answering questions.';
+      return kuwaitBase;
   }
 };
 
@@ -43,14 +46,14 @@ const Home = () => {
       setIsApiKeySet(true);
     }
 
-    // Create personality-specific welcome message
-    let welcomeMessage = `${agentName} here, how can I help you today?`;
+    // Create personality-specific welcome message with Kuwait focus
+    let welcomeMessage = `Marhaba! ${agentName} here, your Kuwait guide. How can I help you explore Kuwait today?`;
     if (agentPersonality === 'funny') {
-      welcomeMessage = `Hey there! ${agentName} at your service! Ready to chat, laugh, and maybe share a joke or two? What's on your mind today?`;
+      welcomeMessage = `Shlonik! ${agentName} at your service! Ready to chat about Kuwait, share some funny stories, and maybe drop a joke or two? Shaku maku, what's on your mind today?`;
     } else if (agentPersonality === 'chill') {
-      welcomeMessage = `Hey, ${agentName} here. What's up? Just hanging out and ready to chat whenever you are.`;
+      welcomeMessage = `Hala, ${agentName} here. Shaku maku? Just chilling and ready to chat about Kuwait whenever you are.`;
     } else if (agentPersonality === 'professional') {
-      welcomeMessage = `Good day. I am ${agentName}, your professional assistant. How may I be of service to you today?`;
+      welcomeMessage = `Marhaba bik. I am ${agentName}, your professional Kuwait guide and assistant. How may I be of service regarding Kuwait today?`;
     }
 
     // Add welcome message on component mount
@@ -96,7 +99,7 @@ const Home = () => {
         messages: [
           { 
             role: 'system', 
-            content: `You are ${agentName}, a helpful AI assistant focused on providing information about local areas, giving recommendations, and answering questions. ${personalityPrompt}` 
+            content: `You are ${agentName}, a helpful AI assistant focused on providing information about Kuwait - its history, culture, local areas, current events, giving recommendations, and answering questions related to Kuwait. ${personalityPrompt}` 
           },
           { role: 'user', content: message }
         ],
@@ -215,3 +218,4 @@ const Home = () => {
 };
 
 export default Home;
+

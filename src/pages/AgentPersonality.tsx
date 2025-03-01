@@ -19,9 +19,9 @@ import {
 import { ArrowRight } from 'lucide-react';
 
 const personalities = [
-  { value: 'funny', label: 'Funny - Always ready with a witty response' },
-  { value: 'chill', label: 'Chill - Relaxed and easy-going' },
-  { value: 'professional', label: 'Professional - Formal and business-like' }
+  { value: 'funny', label: 'Funny - A witty Kuwait guide with humor' },
+  { value: 'chill', label: 'Chill - A relaxed, casual Kuwait guide' },
+  { value: 'professional', label: 'Professional - A formal, detailed Kuwait guide' }
 ];
 
 const AgentPersonality = () => {
@@ -67,7 +67,7 @@ const AgentPersonality = () => {
             Choose Personality
           </motion.h1>
           <p className="text-white/60 text-lg">
-            Select your agent's unique personality traits
+            Select your Kuwait guide's personality style
           </p>
         </div>
         
@@ -115,7 +115,7 @@ const AgentPersonality = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Give your AI agent a distinct personality</p>
+                <p>Choose how your Kuwait guide AI will interact with you</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
