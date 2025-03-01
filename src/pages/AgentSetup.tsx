@@ -14,7 +14,6 @@ import { ArrowRight, Keyboard } from 'lucide-react';
 
 const AgentSetup = () => {
   const [agentName, setAgentName] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [showKeyboardTips, setShowKeyboardTips] = useState(false);
   const navigate = useNavigate();
 
@@ -25,9 +24,6 @@ const AgentSetup = () => {
       navigate('/personality');
     }
   };
-
-  // Intentionally removed the useEffect that changes isTyping state
-  // as it was causing the font flashing issue
 
   // Show keyboard tips after a delay
   useEffect(() => {
@@ -57,9 +53,7 @@ const AgentSetup = () => {
         </div>
 
         <div className="text-center space-y-3 mb-8">
-          <h1 
-            className="text-4xl font-semibold tracking-wide text-white"
-          >
+          <h1 className="text-4xl font-semibold tracking-wide text-white">
             Name Your Agent
           </h1>
           <p className="text-white/60 text-lg">
@@ -73,10 +67,7 @@ const AgentSetup = () => {
               type="text"
               placeholder="Name your agent..."
               value={agentName}
-              onChange={(e) => {
-                setAgentName(e.target.value);
-                // Removed setIsTyping(true) to prevent font flashing
-              }}
+              onChange={(e) => setAgentName(e.target.value)}
               className="h-[56px] px-4 bg-white/5 border-white/10 text-lg text-white placeholder:text-white/40 rounded-xl transition-all duration-300
                 focus:ring-2 focus:ring-white/20 focus:bg-white/10
                 group-hover:bg-white/10"
