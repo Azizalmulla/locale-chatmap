@@ -6,6 +6,7 @@ import AgentPersonality from './pages/AgentPersonality';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import MapView from './pages/MapView';
+import ChatView from './pages/ChatView';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Route path="/setup" element={<AgentSetup />} />
         <Route path="/personality" element={<AgentPersonality />} />
         <Route path="/app" element={<Index />}>
-          <Route index element={<MapView />} />
+          <Route index element={<ChatView />} />
+          <Route path="map" element={<MapView />} />
           <Route path="trending" element={<NotFound />} />
         </Route>
         <Route path="*" element={<NotFound />} />

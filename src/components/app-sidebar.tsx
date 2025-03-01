@@ -1,5 +1,5 @@
 
-import { BookOpen, Map, TrendingUp } from "lucide-react";
+import { MessageSquare, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useRetroMode } from "@/pages/Index";
@@ -15,10 +15,16 @@ import {
 
 const menuItems = [
   {
-    title: "Guide",
+    title: "Chat",
     url: "/app",
-    icon: BookOpen,
-    description: "Interactive Guide"
+    icon: MessageSquare,
+    description: "Talk with your guide"
+  },
+  {
+    title: "Map",
+    url: "/app/map",
+    icon: Map,
+    description: "Explore locations"
   },
   {
     title: "Cool Stuff To Do",
