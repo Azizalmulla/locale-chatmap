@@ -12,11 +12,38 @@ interface ChatMessage {
   isAI: boolean;
 }
 
-interface LocationResponse {
-  message: string;
-  coordinates: [number, number] | null;
-  zoom: number;
-}
+// Base coordinates for popular cities
+const CITY_COORDINATES: { [key: string]: { coordinates: [number, number], zoom: number } } = {
+  'new york': { coordinates: [-74.006, 40.7128], zoom: 11 },
+  'london': { coordinates: [-0.1278, 51.5074], zoom: 11 },
+  'paris': { coordinates: [2.3522, 48.8566], zoom: 11 },
+  'tokyo': { coordinates: [139.6917, 35.6895], zoom: 10 },
+  'sydney': { coordinates: [151.2093, -33.8688], zoom: 11 },
+  'los angeles': { coordinates: [-118.2437, 34.0522], zoom: 10 },
+  'chicago': { coordinates: [-87.6298, 41.8781], zoom: 10 },
+  'berlin': { coordinates: [13.4050, 52.5200], zoom: 11 },
+  'rome': { coordinates: [12.4964, 41.9028], zoom: 11 },
+  'madrid': { coordinates: [-3.7038, 40.4168], zoom: 11 },
+};
+
+// Function to extract location from a message
+const extractLocation = (message: string): { location: string, coordinates: [number, number] | null, zoom: number } => {
+  const lowercaseMsg = message.toLowerCase();
+  
+  // Check if any city name is mentioned in the message
+  for (const city in CITY_COORDINATES) {
+    if (lowercaseMsg.includes(city)) {
+      return { 
+        location: city, 
+        coordinates: CITY_COORDINATES[city].coordinates,
+        zoom: CITY_COORDINATES[city].zoom 
+      };
+    }
+  }
+  
+  // Default return if no location is found
+  return { location: '', coordinates: null, zoom: 1.5 };
+};
 
 const MapView = () => {
   const { isRetroMode } = useRetroMode();
@@ -27,30 +54,81 @@ const MapView = () => {
   const [zoom, setZoom] = useState<number>(1.5);
   const [isLoading, setIsLoading] = useState(false);
 
+  const callOpenAI = async (message: string) => {
+    const openaiApiKey = localStorage.getItem('openai_api_key');
+    
+    if (!openaiApiKey) {
+      throw new Error('OpenAI API key is not set');
+    }
+    
+    // Extract potential location from message
+    const { location, coordinates, zoom } = extractLocation(message);
+    
+    // Construct the prompt with the location information
+    let prompt = message;
+    if (location) {
+      prompt += `\n\nNote: The user seems to be asking about ${location}.`;
+    }
+    
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openaiApiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are a helpful assistant with expertise in geography and local knowledge. Provide concise information about locations, landmarks, and places of interest. Keep responses brief and informative.' 
+          },
+          { role: 'user', content: prompt }
+        ],
+      })
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
+    }
+    
+    const data = await response.json();
+    
+    return {
+      message: data.choices[0].message.content,
+      coordinates: coordinates,
+      zoom: zoom
+    };
+  };
+
   const handleSendMessage = async (message: string) => {
     try {
       setIsLoading(true);
       setMessages(prev => [...prev, { content: message, isAI: false }]);
 
-      const response = await fetch('/functions/v1/location-chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message }),
-      });
+      // Check if API key is set
+      if (!localStorage.getItem('openai_api_key')) {
+        toast.error('Please set your OpenAI API key first');
+        setIsLoading(false);
+        return;
+      }
 
-      if (!response.ok) throw new Error('Failed to get response');
-
-      const data: LocationResponse = await response.json();
+      const response = await callOpenAI(message);
       
-      setMessages(prev => [...prev, { content: data.message, isAI: true }]);
+      setMessages(prev => [...prev, { content: response.message, isAI: true }]);
       
-      if (data.coordinates) {
-        setCoordinates(data.coordinates);
-        setZoom(data.zoom);
+      if (response.coordinates) {
+        setCoordinates(response.coordinates);
+        setZoom(response.zoom);
       }
     } catch (error) {
       toast.error('Failed to process your request. Please try again.');
       console.error('Error:', error);
+      setMessages(prev => [...prev, { 
+        content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Failed to get a response'}. Please try again.`, 
+        isAI: true 
+      }]);
     } finally {
       setIsLoading(false);
     }

@@ -8,10 +8,9 @@ interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   isRetroMode?: boolean;
-  useFallbackMode?: boolean;
 }
 
-const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFallbackMode = false }: ChatInputProps) => {
+const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false }: ChatInputProps) => {
   const [message, setMessage] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
@@ -58,14 +57,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFa
       
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        
-        if (useFallbackMode) {
-          // In fallback mode, we'll just set a simulated message
-          setMessage("I recorded an audio message but transcription is unavailable in offline mode.");
-          toast.info('Voice transcription requires API connectivity.');
-        } else {
-          await processAudio(audioBlob);
-        }
+        await processAudio(audioBlob);
         
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop());
@@ -84,9 +76,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFa
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      if (!useFallbackMode) {
-        toast.info('Processing audio...');
-      }
+      toast.info('Processing audio...');
     }
   };
 
@@ -98,47 +88,55 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFa
     }
   };
 
-  const isJsonResponse = (text: string) => {
-    return text.trim().startsWith('{') || text.trim().startsWith('[');
-  };
-
   const processAudio = async (audioBlob: Blob) => {
     try {
       console.log('Processing audio...');
-      const formData = new FormData();
-      formData.append('audio', audioBlob, 'recording.webm');
-      formData.append('apiKey', localStorage.getItem('openai_api_key') || '');
+      const openaiApiKey = localStorage.getItem('openai_api_key');
       
-      const response = await fetch('/functions/v1/voice-chat', {
-        method: 'POST',
-        headers: {
-          'x-openai-api-key': localStorage.getItem('openai_api_key') || ''
-        },
-        body: formData,
-      });
+      if (!openaiApiKey) {
+        throw new Error('OpenAI API key is not set');
+      }
       
-      console.log('Voice chat response status:', response.status);
+      // Convert audio to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
       
-      const responseText = await response.text();
-      console.log('Voice chat response text first 100 chars:', responseText.substring(0, 100));
-      
-      if (!isJsonResponse(responseText)) {
-        if (responseText.includes('<!DOCTYPE') || responseText.includes('<html>')) {
-          throw new Error('Received HTML instead of JSON. The API endpoint may not be deployed or configured correctly.');
-        } else {
-          throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
+      reader.onloadend = async () => {
+        try {
+          // Extract the base64 data
+          const base64Audio = (reader.result as string).split(',')[1];
+          
+          // Call OpenAI's audio transcription API
+          const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${openaiApiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              file: base64Audio,
+              model: 'whisper-1',
+              response_format: 'json'
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error(`OpenAI API error: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          
+          if (data.text) {
+            setMessage(data.text);
+            toast.success('Audio transcribed successfully');
+          } else {
+            throw new Error('No transcription returned');
+          }
+        } catch (error) {
+          console.error('Error processing audio:', error);
+          toast.error(`Failed to transcribe audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
-      }
-      
-      const data = JSON.parse(responseText);
-      console.log('Voice chat response data:', data);
-      
-      if (data.success && data.text) {
-        setMessage(data.text);
-        toast.success('Audio processed successfully');
-      } else {
-        throw new Error(data.error || 'No transcription returned');
-      }
+      };
     } catch (error) {
       console.error('Error processing audio:', error);
       toast.error(`Failed to process audio: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -172,7 +170,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFa
               : isRecording
               ? 'bg-red-500/20 text-red-500'
               : 'hover:bg-white/5 text-gray-400'
-          } ${useFallbackMode && !isRecording ? 'opacity-50' : ''}`}
+          }`}
           disabled={disabled}
         >
           {isRecording ? <Square className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
@@ -185,7 +183,7 @@ const ChatInput = ({ onSendMessage, disabled = false, isRetroMode = false, useFa
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder={useFallbackMode ? "Chat in offline mode (limited responses)" : "Type your message..."}
+          placeholder="Type your message..."
           className={`flex-1 px-4 py-3 rounded-lg text-sm transition-colors
             ${isRetroMode 
               ? 'bg-black/40 border border-[#0DF5E3]/20 text-[#0DF5E3] retro-text placeholder:text-[#0DF5E3]/50' 

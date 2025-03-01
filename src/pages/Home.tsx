@@ -18,9 +18,8 @@ const Home = () => {
   const { isRetroMode } = useRetroMode();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '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');
+  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
   const [isApiKeySet, setIsApiKeySet] = useState(!!localStorage.getItem('openai_api_key'));
-  const [useFallbackMode, setUseFallbackMode] = useState(false);
   const agentName = localStorage.getItem('agentName') || 'Agent';
 
   useEffect(() => {
@@ -54,41 +53,38 @@ const Home = () => {
     }
   };
 
-  const isJsonResponse = (text: string) => {
-    // Check if the response is likely JSON or HTML
-    return text.trim().startsWith('{') || text.trim().startsWith('[');
-  };
-
-  // Local fallback responses when serverless functions are not available
-  const generateLocalResponse = (userMessage: string) => {
-    const lowercaseMessage = userMessage.toLowerCase();
+  const callOpenAI = async (message: string) => {
+    const openaiApiKey = localStorage.getItem('openai_api_key');
     
-    if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi ')) {
-      return `Hello! I'm ${agentName}. How can I assist you today?`;
+    if (!openaiApiKey) {
+      throw new Error('OpenAI API key is not set');
     }
     
-    if (lowercaseMessage.includes('help')) {
-      return "I can help you discover your city, provide local recommendations, and offer insights about neighborhoods.";
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openaiApiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { 
+            role: 'system', 
+            content: `You are ${agentName}, a helpful AI assistant focused on providing information about local areas, giving recommendations, and answering questions.` 
+          },
+          { role: 'user', content: message }
+        ],
+      })
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
     
-    if (lowercaseMessage.includes('restaurant') || lowercaseMessage.includes('food') || lowercaseMessage.includes('eat')) {
-      return "I'd suggest checking out the local restaurants in your area. Popular options might include Italian bistros, sushi places, or farm-to-table establishments.";
-    }
-    
-    if (lowercaseMessage.includes('activit') || lowercaseMessage.includes('things to do') || lowercaseMessage.includes('event')) {
-      return "There are many activities you could enjoy in your city, such as visiting museums, exploring parks, attending local events, or checking out farmers markets.";
-    }
-    
-    if (lowercaseMessage.includes('weather')) {
-      return "I don't have access to real-time weather data, but I recommend checking your local weather app or website for the most up-to-date forecast.";
-    }
-    
-    if (lowercaseMessage.includes('thank')) {
-      return "You're welcome! Feel free to ask if you need any more assistance.";
-    }
-    
-    // Default fallback response
-    return `I understand you're asking about "${userMessage}". While I'd normally connect to my AI service to provide a detailed response, I'm currently operating in offline mode due to API connectivity issues. Is there something specific about your local area I can help with?`;
+    const data = await response.json();
+    return data.choices[0].message.content;
   };
 
   const handleSendMessage = async (message: string) => {
@@ -104,72 +100,20 @@ const Home = () => {
         return;
       }
 
-      if (useFallbackMode) {
-        // Use local fallback mode without making API calls
-        const fallbackResponse = generateLocalResponse(message);
-        setTimeout(() => {
-          setMessages(prev => [...prev, { content: fallbackResponse, isAI: true }]);
-          setIsLoading(false);
-        }, 1000); // Add a small delay to simulate processing
-        return;
-      }
-
-      console.log('Sending message to generate function...');
+      console.log('Sending message to OpenAI...');
       
-      // Try to send the message to the generate function
       try {
-        const response = await fetch('/functions/v1/generate', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'x-openai-api-key': localStorage.getItem('openai_api_key') || ''
-          },
-          body: JSON.stringify({ 
-            prompt: message,
-            apiKey: localStorage.getItem('openai_api_key')
-          }),
-        });
-
-        console.log('Response status:', response.status);
-        
-        // Get the response text first to check if it's JSON or HTML
-        const responseText = await response.text();
-        console.log('Response text first 100 chars:', responseText.substring(0, 100));
-        
-        // Check if the response is likely HTML (error page)
-        if (!isJsonResponse(responseText)) {
-          if (responseText.includes('<!DOCTYPE') || responseText.includes('<html>')) {
-            console.error('Received HTML instead of JSON. Switching to fallback mode.');
-            toast.error('API endpoint unavailable. Switching to offline mode.');
-            setUseFallbackMode(true);
-            // Use local fallback response
-            const fallbackResponse = generateLocalResponse(message);
-            setMessages(prev => [...prev, { content: fallbackResponse, isAI: true }]);
-            return;
-          } else {
-            throw new Error(`Invalid response format: ${responseText.substring(0, 100)}...`);
-          }
-        }
-        
-        // If we got here, the response should be valid JSON
-        const data = JSON.parse(responseText);
-        console.log('Response data:', data);
-        
-        // Add AI response to the chat
-        if (data.generatedText) {
-          setMessages(prev => [...prev, { content: data.generatedText, isAI: true }]);
-        } else if (data.error) {
-          throw new Error(data.error);
-        } else {
-          throw new Error('No response text received');
-        }
+        // Call OpenAI API directly
+        const generatedText = await callOpenAI(message);
+        setMessages(prev => [...prev, { content: generatedText, isAI: true }]);
       } catch (error) {
-        console.error('Error with API call, using fallback:', error);
-        // Switch to fallback mode and provide a local response
-        setUseFallbackMode(true);
-        toast.error('API connection failed. Switching to offline mode.');
-        const fallbackResponse = generateLocalResponse(message);
-        setMessages(prev => [...prev, { content: fallbackResponse, isAI: true }]);
+        console.error('Error calling OpenAI:', error);
+        toast.error(`Error: ${error instanceof Error ? error.message : 'Failed to get a response'}`);
+        // Add error message to chat
+        setMessages(prev => [...prev, { 
+          content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : 'Failed to get a response'}. Please check your API key and try again.`, 
+          isAI: true 
+        }]);
       }
     } catch (error) {
       console.error('Error sending message:', error);
@@ -211,21 +155,6 @@ const Home = () => {
         </motion.div>
       )}
       
-      {useFallbackMode && (
-        <div className="p-2 bg-yellow-500/20 text-yellow-200 text-xs text-center">
-          Operating in offline mode. Some features may be limited.
-          <button 
-            className="ml-2 underline" 
-            onClick={() => {
-              setUseFallbackMode(false);
-              toast.info('Trying to reconnect to API...');
-            }}
-          >
-            Try reconnecting
-          </button>
-        </div>
-      )}
-      
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -253,7 +182,6 @@ const Home = () => {
             onSendMessage={handleSendMessage} 
             isRetroMode={isRetroMode}
             disabled={isLoading || !isApiKeySet}
-            useFallbackMode={useFallbackMode}
           />
         </div>
       </div>
