@@ -3,7 +3,6 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
-const mapboxToken = Deno.env.get('MAPBOX_TOKEN');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -43,14 +42,35 @@ serve(async (req) => {
     });
 
     const data = await response.json();
-    const result = JSON.parse(data.choices[0].message.content);
+    let result;
+    
+    try {
+      if (typeof data.choices[0].message.content === 'string') {
+        result = JSON.parse(data.choices[0].message.content);
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (e) {
+      console.error('Error parsing response:', e);
+      // Fallback to a default response structure
+      result = {
+        message: data.choices[0].message.content || "I couldn't process that location. Could you try being more specific?",
+        coordinates: null,
+        zoom: 1
+      };
+    }
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      message: "Sorry, I encountered an error processing your request.",
+      coordinates: null,
+      zoom: 1,
+      error: error.message 
+    }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
