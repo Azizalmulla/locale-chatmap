@@ -78,3 +78,17 @@
   width: 35%;
   background-color: #222222;
 }
+
+/* Narrow sidebar styles */
+.narrow-sidebar {
+  width: 48px !important;
+  min-width: 48px !important;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+/* Expanded content area */
+.expanded-content {
+  width: calc(100% - 48px);
+}
+
