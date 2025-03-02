@@ -61,55 +61,21 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Email-like layout */
-.email-layout {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  background-color: #000;
-  overflow: hidden;
-}
-
-.email-layout .nav-sidebar {
-  width: 60px;
-  background-color: #141414;
-  border-right: 1px solid #2a2a2a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 12px;
-}
-
-.email-layout .main-content {
-  display: flex;
-  flex: 1;
-  gap: 12px;
-  padding: 12px;
-  background-color: #000;
-}
-
-.email-layout .compose-panel {
-  flex: 3;
-  background-color: #141414;
-  border-radius: 12px;
+/* Card panel styles */
+.card-panel {
+  background-color: rgba(34, 34, 34, 0.8);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.email-layout .assistant-panel {
-  flex: 2;
-  background-color: #141414;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
 }
 
 .panel-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid #2a2a2a;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -121,140 +87,192 @@
   align-items: flex-start;
 }
 
-.panel-title h2 {
-  font-size: 16px;
-  margin: 0;
-  font-weight: 500;
-  text-align: left;
-}
-
-.panel-title p {
-  font-size: 12px;
-  margin: 0;
-  opacity: 0.6;
-  text-align: left;
-}
-
-.email-form {
+.panel-content {
+  flex: 1;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding: 16px 20px;
 }
 
-.form-group {
+/* Dashboard layout with gap between panels */
+.dashboard-layout {
   display: flex;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #2a2a2a;
-  padding-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: #1A1F2C;
 }
 
-.form-group label {
-  width: 80px;
-  color: #888;
-  text-align: right;
-  padding-right: 12px;
+.map-panel {
+  width: 65%;
 }
 
-.form-group input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 14px;
-  outline: none;
+.chat-panel {
+  width: 35%;
 }
 
-.email-body {
-  flex: 1;
-  text-align: left;
-  line-height: 1.6;
-}
-
-.email-actions {
+/* Minimal sidebar styles */
+.minimal-sidebar {
+  width: 70px;
+  background-color: rgba(34, 34, 34, 0.8);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #2a2a2a;
-  padding: 12px 20px;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
 }
 
-.action-button {
+.sidebar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #3a3a3a;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background-color: #222;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  color: white;
-  cursor: pointer;
-}
-
-.assistant-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-.assistant-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
+  margin-bottom: 2rem;
+  overflow: hidden;
 }
 
-.assistant-logo {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 16px;
-}
-
-.assistant-input {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px;
-  border-top: 1px solid #2a2a2a;
-}
-
-.assistant-input-box {
-  background-color: #222;
-  border-radius: 8px;
-  padding: 12px;
+.sidebar-nav {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1.5rem;
   align-items: center;
-}
-
-.assistant-input-box input {
-  background: transparent;
-  border: none;
-  color: white;
-  flex: 1;
-  outline: none;
 }
 
 .nav-icon {
-  width: 24px;
-  height: 24px;
-  margin: 8px 0;
-  padding: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.2s;
+  color: #9F9EA1;
+  transition: all 0.2s ease;
 }
 
 .nav-icon:hover {
-  opacity: 1;
-  background-color: #2a2a2a;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
 }
 
 .nav-icon.active {
-  background-color: #2a2a2a;
-  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+/* Search bar styles */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem 1.5rem;
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  font-size: 0.875rem;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Chat message styles for apple-esque design */
+.message-container {
+  padding: 0.75rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.user-message {
+  background-color: #403E43;
+  margin-left: auto;
+  border-radius: 1rem 1rem 0 1rem;
+  color: #FFFFFF;
+}
+
+.ai-message {
+  background-color: #222222;
+  margin-right: auto;
+  border-radius: 1rem 1rem 1rem 0;
+  color: #C8C8C9;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Chat input styles */
+.chat-input-container {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.chat-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+}
+
+.input-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-action-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #9F9EA1;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.input-action-button:hover {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.send-button {
+  color: #FFFFFF;
+  background-color: #0066CC;
+}
+
+.send-button:hover {
+  background-color: #0077FF;
 }
