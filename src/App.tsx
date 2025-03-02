@@ -7,6 +7,7 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import MapView from './pages/MapView';
 import ChatView from './pages/ChatView';
+import DashboardView from './pages/DashboardView';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/setup" element={<AgentSetup />} />
         <Route path="/personality" element={<AgentPersonality />} />
         <Route path="/app" element={<Index />}>
-          <Route index element={<ChatView />} />
+          <Route index element={<DashboardView />} />
+          <Route path="chat" element={<ChatView />} />
           <Route path="map" element={<MapView />} />
           <Route path="trending" element={<NotFound />} />
         </Route>

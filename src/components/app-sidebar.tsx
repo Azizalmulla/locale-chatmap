@@ -1,4 +1,3 @@
-
 import { MessageSquare, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -15,8 +14,14 @@ import {
 
 const menuItems = [
   {
-    title: "Chat",
+    title: "Dashboard",
     url: "/app",
+    icon: MessageSquare,
+    description: "Combined view"
+  },
+  {
+    title: "Chat",
+    url: "/app/chat",
     icon: MessageSquare,
     description: "Talk with your guide"
   },
@@ -39,7 +44,10 @@ export function AppSidebar() {
   const { isRetroMode } = useRetroMode();
 
   const isActiveRoute = (itemUrl: string) => {
-    return location.pathname === itemUrl || (itemUrl === '/app' && location.pathname === '/app/chat');
+    if (itemUrl === '/app') {
+      return location.pathname === '/app';
+    }
+    return location.pathname === itemUrl;
   };
 
   return (
@@ -105,7 +113,7 @@ export function AppSidebar() {
                                 ? 'bg-[#0DF5E3]/10 text-[#0DF5E3] retro-glow'
                                 : 'text-[#0DF5E3]/80 hover:text-[#0DF5E3] hover:retro-glow'
                             )
-                          : location.pathname === item.url
+                          : isActiveRoute(item.url)
                             ? 'text-accent-foreground'
                             : 'text-muted-foreground hover:text-accent-foreground hover:bg-accent/50'
                       }`}
