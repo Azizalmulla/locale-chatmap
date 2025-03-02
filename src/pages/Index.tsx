@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { createContext, useContext, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
@@ -19,6 +19,10 @@ export const useRetroMode = () => useContext(RetroContext);
 
 const Index = () => {
   const [isRetroMode, setIsRetroMode] = useState(false);
+  const location = useLocation();
+  
+  // Check if we're on the root app path to use email layout
+  const isEmailLayout = location.pathname === '/app';
 
   const toggleRetroMode = () => {
     setIsRetroMode(!isRetroMode);
@@ -28,6 +32,17 @@ const Index = () => {
       toast.success("Modern Mode Activated!");
     }
   };
+
+  if (isEmailLayout) {
+    return (
+      <RetroContext.Provider value={{ isRetroMode, toggleRetroMode }}>
+        <div className={`h-screen w-full bg-black ${isRetroMode ? 'retro-grid' : ''}`}>
+          <Outlet />
+          {isRetroMode && <div className="retro-scanline absolute inset-0 pointer-events-none" />}
+        </div>
+      </RetroContext.Provider>
+    );
+  }
 
   return (
     <RetroContext.Provider value={{ isRetroMode, toggleRetroMode }}>
