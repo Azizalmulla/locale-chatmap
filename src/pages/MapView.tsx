@@ -17,7 +17,7 @@ const MapView = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex w-full h-full expanded-content"
+        className="flex w-full h-full"
       >
         <div className={`w-full h-full ${
           isRetroMode 

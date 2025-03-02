@@ -38,7 +38,7 @@ const Index = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex-1 relative expanded-content overflow-hidden"
+            className="flex-1 relative overflow-hidden"
           >
             <button
               onClick={toggleRetroMode}
