@@ -1,4 +1,3 @@
-
 import { MessageSquare, Map, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -11,10 +10,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/tooltip";
 
 const menuItems = [
   {
