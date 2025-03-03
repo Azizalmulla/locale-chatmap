@@ -1,3 +1,4 @@
+
 #root {
   width: 100%;
   max-width: 100%;
@@ -78,8 +79,8 @@
   background-color: #222222;
 }
 
-/* Updated sidebar variables for ultra narrow sidebar */
+/* Custom sidebar variables for narrow sidebar */
 :root {
-  --sidebar-width-narrow: 0;
-  --sidebar-icon-narrow: 0;
+  --sidebar-width-narrow: 3rem;
+  --sidebar-icon-narrow: 2rem;
 }
