@@ -70,17 +70,17 @@
 }
 
 .dashboard-layout .map-panel {
-  width: 67%;
+  width: 75%;
   border-right: 1px solid #333333;
 }
 
 .dashboard-layout .chat-panel {
-  width: 33%;
+  width: 25%;
   background-color: #222222;
 }
 
 /* Custom sidebar variables for narrow sidebar */
 :root {
-  --sidebar-width-narrow: 3rem;
-  --sidebar-icon-narrow: 2rem;
+  --sidebar-width-narrow: 0.75rem;
+  --sidebar-icon-narrow: 0.5rem;
 }
