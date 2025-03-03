@@ -1,7 +1,6 @@
 
 import { motion } from 'framer-motion';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/app-sidebar';
 import { Outlet } from 'react-router-dom';
 import { createContext, useContext, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
@@ -33,7 +32,6 @@ const Index = () => {
     <RetroContext.Provider value={{ isRetroMode, toggleRetroMode }}>
       <SidebarProvider>
         <div className={`h-screen flex w-full bg-background ${isRetroMode ? 'retro-grid bg-black' : ''}`}>
-          <AppSidebar />
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
