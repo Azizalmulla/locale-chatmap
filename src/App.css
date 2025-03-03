@@ -78,3 +78,10 @@
   width: 35%;
   background-color: #222222;
 }
+
+/* Custom sidebar variables for narrow sidebar */
+:root {
+  --sidebar-width-narrow: 3rem;
+  --sidebar-icon-narrow: 2rem;
+}
+
