@@ -67,6 +67,8 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative;
+  left: 0;
 }
 
 .dashboard-layout .map-panel {
@@ -81,6 +83,6 @@
 
 /* Custom sidebar variables for narrow sidebar */
 :root {
-  --sidebar-width-narrow: 3rem;
-  --sidebar-icon-narrow: 2rem;
+  --sidebar-width-narrow: 0rem;
+  --sidebar-icon-narrow: 0rem;
 }

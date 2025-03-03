@@ -138,9 +138,10 @@ const DashboardView = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         className="flex w-full h-full"
+        style={{ marginLeft: '-0.05rem' }} // Slight negative margin to ensure no gap
       >
         {/* Map Panel (Left - 65%) */}
-        <div className={`w-2/3 h-full border-r border-[#333333] flex flex-col ${
+        <div className={`w-[70%] h-full border-r border-[#333333] flex flex-col ${
           isRetroMode 
             ? 'ring-1 ring-[#0FA0CE] shadow-[0_0_15px_rgba(15,160,206,0.3)]' 
             : ''
@@ -158,8 +159,8 @@ const DashboardView = () => {
           </div>
         </div>
         
-        {/* Chat Panel (Right - 35%) */}
-        <div className="w-1/3 h-full flex flex-col bg-[#222222]">
+        {/* Chat Panel (Right - 30%) */}
+        <div className="w-[30%] h-full flex flex-col bg-[#222222]">
           <div className="p-4 border-b border-[#333333]">
             <h2 className={`text-xl font-semibold ${isRetroMode ? 'text-[#0DF5E3] retro-text' : 'text-white'}`}>Chat</h2>
             <p className={`text-sm opacity-70 ${isRetroMode ? 'text-[#0DF5E3]/70 retro-text' : 'text-gray-400'}`}>Talk with your guide</p>
