@@ -72,12 +72,12 @@
 }
 
 .dashboard-layout .map-panel {
-  width: 67%;
+  width: 75%;
   border-right: 1px solid #333333;
 }
 
 .dashboard-layout .chat-panel {
-  width: 33%;
+  width: 25%;
   background-color: #222222;
 }
 
